@@ -1,0 +1,225 @@
+<div *ngIf="users.length > 0" class="ewrapper">
+
+    <div class="contact-header">
+        <div class="vector-lines2">
+            <img src="./assets/img/img-linesdecor.svg">
+        </div>
+        <h3>Admin Panel</h3>
+        <div class="vector-lines2">
+            <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+        </div>
+    </div>
+
+
+    <div class="account-bar">
+        Account list
+        <div class="admin-filters">
+            <div class="filter-list">
+                <form>
+                    <label class="filter-check">
+                        <input type="radio" name="filter-check" [(ngModel)]="radio" [value]="''" [checked]="true"><span
+                            class="admin-filter">All</span>
+                    </label>
+                    <label class="filter-check">
+                        <input type="radio" name="filter-check" [(ngModel)]="radio" [value]="'Admin'"><span
+                            class="admin-filter">Admins</span>
+                    </label>
+                    <label class="filter-check">
+                        <input type="radio" name="filter-check" [(ngModel)]="radio" [value]="'Guest'"><span
+                            class="admin-filter">Guests</span>
+                    </label>
+                    <label class="filter-check">
+                        <input type="radio" name="filter-check" [(ngModel)]="radio" [value]="'Family member'"><span
+                            class="admin-filter">Family Members</span>
+                    </label>
+                    <label class="filter-check">
+                        <input type="radio" name="filter-check" [(ngModel)]="radio" [value]="'Friend'"><span
+                            class="admin-filter">Friends</span>
+                    </label>
+                    <label class="filter-check">
+                        <input type="radio" name="filter-check" [(ngModel)]="radio" [value]="'Guest with access'"><span
+                            class="admin-filter">Guests with access</span>
+                    </label>
+
+
+                </form>
+            </div>
+
+            <div class="admin-search">
+                <div class="search-bar">
+                    <form>
+                        <input type="text" placeholder="Search account" class="search-text" name="search"
+                            [(ngModel)]="filter" autocomplete="off">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="admin-container">
+
+        <div *ngFor="let user of users | searchfilter: filter | radiofilter: radio | numberfilter: userLimit; index as i"
+            class="admin-account">
+            <div class="library-circlebox adminbox"><img alt="member 6" [src]='user.avatar'></div>
+            <div class="admin-name">
+                <h6>{{ user.name }}</h6> <br>
+            </div>
+            <h6 class="user-lastname">{{ user.lastName }}</h6>
+            <button class="admin-anchor" (click)="toggle(i)">
+                <button *ngIf="user.banned" (click)="banAccount(user._id, user.banned)">Revoke ban</button>
+            </button>
+            <p>{{ user.role }}<br></p>
+
+
+
+            <div class="account-type-select acc-{{i}}" id="adminMenu">
+                <img src="./assets/img/close.svg" class="close-button" (click)="toggle(i)" />
+                <div class="admin-acc-details">
+                    <a href="User/{{user._id}}">
+                        <img alt="member 6" [src]="user.avatar" referrerpolicy="no-referrer">
+                    </a>
+                    <h5>{{ user.name }}<br>{{user.lastName}}</h5>
+                    <span *ngIf="user.banned">BANNED</span>
+
+                    <p *ngIf="!user.banned"> {{ user.role }}</p>
+
+                </div>
+                <div class="change-acc-type">
+                    Change the rank of member to:<br>
+                    <label class="check-button">
+                        <input type="radio" [name]="i" [checked]="user.role == 'Admin'"
+                            (click)="checkAdmin(user._id, 'Admin')"><span class="admin-check"></span>
+                        <span class="list-role">Admin</span>
+                    </label><br>
+                    <label class="check-button">
+                        <input type="radio" [name]="i" [checked]="user.role == 'Family member'"
+                            (click)="checkAdmin(user._id, 'Family member')"><span class="admin-check"></span>
+                        <span class="list-role">Family member</span>
+                    </label><br>
+                    <label class="check-button">
+                        <input type="radio" [name]="i" [checked]="user.role == 'Friend'"
+                            (click)="checkAdmin(user._id, 'Friend')"><span class="admin-check"></span>
+                        <span class="list-role">Friend</span>
+                    </label><br>
+                    <label class="check-button">
+                        <input type="radio" [name]="i" [checked]="user.role == 'Guest with access'"
+                            (click)="checkAdmin(user._id, 'Guest with access')"><span class="admin-check"></span>
+                        <span class="list-role">Guest with access</span>
+                    </label><br>
+                    <label class="check-button">
+                        <input type="radio" [name]="i" [checked]="user.role == 'Guest'"
+                            (click)="checkAdmin(user._id, 'Guest')"><span class="admin-check"></span>
+                        <span class="list-role">Guest</span>
+                    </label><br>
+
+                    <p *ngIf="!user.banned" (click)="banAccount(user._id, user.banned)">Ban account
+                    <p>
+                    <p *ngIf="user.banned" (click)="banAccount(user._id, user.banned)">Revoke ban
+                    <p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <button class="download-more" (click)="moreUsers()"><a>Load more</a><br></button>
+    <div *ngIf="requests.length > 0" class="account-bar">
+        <br><br>
+        Request List
+
+        <div *ngFor="let request of requests | numberfilter: requestLimit; index as i" class="rejection">
+
+
+            <div class="no-access floating-window">
+                <div class="rejections-message">
+                    <img src="./assets/img/close.svg" class="close-button" (click)="closeWindow()" />
+                    <h1></h1>
+                    <form class="rejection-form" (submit)="sendButton()">
+                        <p>Text:</p>
+                        <textarea [(ngModel)]="email.content" name="Content"></textarea>
+                        <input type="submit" value="Send message" class="send-button send-reject" />
+                    </form>
+                </div>
+            </div>
+
+
+            <div *ngIf="request.type == 'access' " class="request-info">
+                <div class="request-left">
+                    <div class="request-thumbnail">
+                        <img src="{{request.thumbnail}}">
+                    </div>
+                    <div class="request-user">
+                        <img [src]="request.avatar" referrerpolicy="no-referrer" />
+                        <span><b>{{request.userName}}</b></span>
+                    </div>
+                    <span>Requested access to <b>{{request.item.name}}</b></span>
+                    <span>Purpose <b>{{request.purpose}}</b></span>
+                </div>
+
+                <div class="request-buttons">
+                    <button class="accept"
+                        (click)="rejectionForm(true, i, request._id, false, request.user)">Accept</button>
+                    <span>or</span>
+                    <button class="reject"
+                        (click)="rejectionForm(false, i, request._id, false, request.user)">Reject</button>
+                </div>
+            </div>
+
+            <div *ngIf="request.type == 'appeal' " class="request-info">
+                <div class="request-left">
+                    <div class="request-thumbnail">
+                        <img src="./assets/img/alert.svg">
+                    </div>
+                    <div class="request-user">
+                        <img [src]="request.avatar" referrerpolicy="no-referrer">
+                    </div>
+                    <span><b>{{request.userName}}</b></span>
+                    <span>Sent a ban appeal</span>
+                </div>
+
+                <div class="request-buttons">
+                    <button class="accept"
+                        (click)="rejectionForm(true, i, request._id, true, request.user)">Accept</button>
+                    <span>or</span>
+                    <button class="reject"
+                        (click)="rejectionForm(false, i, request._id, true, request.user)">Reject</button>
+                </div>
+            </div>
+
+
+            <div *ngIf="request.description" class="description">
+                <p>{{request.description}}</p>
+            </div>
+
+
+        </div>
+
+    </div>
+    <button *ngIf="requests.length > 0" class="download-more" (click)="moreRequests()"><a>Load more</a><br></button>
+</div>
+
+<div class="ban-box banWindow">
+    <div class="ban-confirm ">
+        <h1>Are you sure?</h1>
+        <form (submit)="confirmBan()">
+            <input [(ngModel)]="banMemo.text" name="text" type="text" placeholder="Ban Reason" class="banReason">
+            <button class="Yes" type="submit">Yes</button> <button class="No" type="button"
+                (click)="closeBanWindow()">No</button>
+        </form>
+
+    </div>
+</div>
+
+<div class="ban-box adminWindow">
+    <div class="ban-confirm ">
+        <h1>Remove yourself as admin?</h1>
+        <span>You won't be able to access this page until another admin gives you the role back</span>
+        <form (submit)="removeAdmin()">
+            <button class="Yes" type="submit">Yes</button> <button class="No" type="button"
+                (click)="closeBanWindow()">No</button>
+        </form>
+
+    </div>
+</div>

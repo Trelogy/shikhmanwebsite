@@ -1,0 +1,93 @@
+<!--Pop Up upload picture-->
+<div *ngIf="!photo; else main_content">
+   
+</div>
+
+<ng-template #main_content>
+    <div class="container-all">
+        <div class="containerp">
+            <div class="closebar">
+                <a (click)="popuppicoff()"><img alt="exit icon" class="close-button" src="./assets/img/close.svg"></a>
+            </div>
+
+            <form class="popupformpic" [formGroup]="form" (submit)="updatePhoto(name, date, description)">
+                <div class="picturewrap">
+                    <div class="picturepv">
+                        <img [alt]="form.value.name" [src]="photo.imagePath">
+                    </div>
+            
+                    <div class="btn-center">
+                        <label  class="btnpopup" for="file">Change Image
+                            <input (change)="onFileSelect($event)" type="file" accept="image/*" id="file" required>
+                        </label>
+                    </div>
+                </div>
+
+                <label class="inputtext" for="name">Title</label>
+                <input type="text" id="name" placeholder="Title of this image" [value]="photo.name" #name required autofocus>
+                
+                <label class="inputtext" for="date">Date/Year (if known)</label>
+                <div class="date-field">
+                <input  type="text" id="date" placeholder="Date/Year of item (ex: 1895 or 05/14/2004)" [value]="photo.date" #date><br>
+                </div>
+
+                <label class="inputtext" for="description">Description</label>
+                <textarea  id="description" class="template-description" placeholder="Description for this item" [value]="photo.description" #description required></textarea>
+                
+                <div class="btn-center">
+                    <div class="linegroup">
+                        <img alt="decor" src="./assets/img/img-line.svg">
+                        <button type="submit" value="updatepicture" class="btn-darkb">Update</button>
+                        <img alt="decor" src="./assets/img/img-line.svg">
+                    </div>
+                </div>
+                <div class="delete ps">
+                    <a><button (click)="deletePhoto(photo._id)">Delete item</button></a>
+                </div>
+        
+            </form>
+            
+
+            <!--<form class="popupformpic" [formGroup]="form" (submit)="onSubmit()">
+                <div class="picturewrap">
+                    <div *ngIf="imageData else showTemplate" class="picturepv">
+                        <img [alt]="form.value.name" [src]="imageData">
+                    </div>
+                    <ng-template #showTemplate>
+                        <div class="picturepv">
+                            <img [alt]="form.value.name" [src]="'./assets/img/img-uploadphoto.svg'">
+                        </div>
+                    </ng-template>
+                    <div class="btn-center">
+                        <label  class="btnpopup" for="file">Change Image
+                            <input (change)="onFileSelect($event)" type="file" id="file" required>
+                        </label>
+                    </div>
+                </div>
+
+                <label class="inputtext" for="name">Title</label>
+                <input formControlName="name" type="text" id="name" placeholder="Title of this image" required autofocus>
+                
+                <label class="inputtext" for="date">Date/Year (if known)</label>
+                <div class="date-field">
+                <input formControlName="date" type="text" id="date" placeholder="Date/Year of item (ex: 1895 or 05/14/2004)" ><br>
+                </div>
+
+                <label class="inputtext" for="description">Description</label>
+                <textarea formControlName="description" id="description" class="template-description" placeholder="Description for this item" required></textarea>
+                
+                <div class="btn-center">
+                    <div class="linegroup">
+                        <img alt="decor" src="./assets/img/img-line.svg">
+                        <button type="submit" value="savepicture" class="btn-darkb">Save</button>
+                        <img alt="decor" src="./assets/img/img-line.svg">
+                    </div>
+                </div>
+                <div class="delete ps">
+                    <a><span>Delete item</span></a>
+                </div>
+        
+            </form>-->
+        </div>
+    </div>
+</ng-template>

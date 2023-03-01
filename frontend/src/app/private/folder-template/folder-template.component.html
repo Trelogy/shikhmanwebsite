@@ -1,0 +1,155 @@
+<div class="ewrapper">
+    <div class="path">
+        <div class="path-web ">
+            <div class="img-home"><a href=""><img alt="Home Icon" src="./assets/img/img-home.svg"></a></div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Collections"><button>Collections</button></a>
+            </div>
+            <div *ngFor="let level of path" class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="{{level.url}}"><button>{{level.name}}</button></a>
+            </div>
+        </div>
+    </div>
+    <div class="eheader-container">
+        <div class="eheader">
+            <img src="./assets/img/img-linesdecor.svg">
+            <h1>Collection Folder</h1>
+            <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+        </div>
+    </div>
+
+    <div class="template-container">
+
+        <div class="template-list">
+            <div class="template-topbar">
+                <a href="{{back}}">
+                    <button class="member-button back">
+                        <div class="member-filter"></div>
+                    </button>
+                </a>
+                <div class="search-bar c-template-bar">
+                    <input type="text" [(ngModel)]="filter" name="filter" placeholder="Search" class="search-text">
+                </div>
+                <div class="template-buttons">
+                    <button class="member-button add-image" (click)="addItem('folder')">
+                        <div class="member-filter"></div>
+                        <p>Folder</p>
+                    </button>
+                    <button class="member-button add-image" (click)="addItem('item')">
+                        <div class="member-filter"></div>
+                        <p>Item</p>
+                    </button>
+                </div>
+            </div>
+
+            <div class="template-view">
+                <div class="templates">
+
+                    <div *ngFor="let item of content | searchfilter: filter; index as i ">
+                        <div *ngIf="item.type == 'folder';else collectionItem" class="template-img template-folder">
+                            <a href="Folder-Template/{{item._id}}"></a>
+                            <div class="template-folder-info">
+                                <img src="./assets/img/Folder.png" style="background: url('{{item.thumbnail}}') no-repeat; background-color: lightgray;
+                                    background-size: cover;" alt="Folder">
+                                <h6>{{item.name}}</h6>
+                                <span>{{item.content.length}} item<span *ngIf="item.content.length != 1">s</span></span>
+                            </div>
+                            <label class="flag">
+                                <input type="checkbox" name="thumbnail" class="flagcheck"
+                                    [checked]="folder.thumbnail == item.thumbnail"
+                                    (change)="setThumbnail(item.thumbnail)"><img class="flagimg"
+                                    src="./assets/img/Flag.svg">
+                            </label>
+                        </div>
+
+                        <ng-template #collectionItem>
+                            <a href="Collection-Item-Template/{{item._id}}">
+                                <div class="template-img"
+                                    style="background: url('{{item.thumbnail}}') no-repeat; background-size: cover;">
+                                    <div class="gradient">
+                                        <img src="./assets/img/gradient.svg" alt="gradient">
+                                    </div>
+                                    <label class="flag">
+                                        <input type="checkbox" name="thumbnail" class="flagcheck"
+                                            [checked]="folder.thumbnail == item.thumbnail"
+                                            (click)="setThumbnail(item.thumbnail)"><img class="flagimg"
+                                            src="./assets/img/Flag.svg">
+                                    </label>
+                                    <p>{{item.name}}</p>
+                                </div>
+                            </a>
+                        </ng-template>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="slidecontainer">
+                <input type="range" min="0" max="100" value="0" class="slider" (input)="scrollView()">
+            </div>
+            <div class="sdbtn mobile-save">
+                <div class="save-container">
+                    <button (click)="updateFolder()" class="save-button darkbutton">Save</button>
+                </div>
+                <div class="save-container">
+                    <a (click)="confirm()"><button>Delete item</button></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="template-details">
+            <form class="request-form template-form" (submit)="updateFolder()">
+                <p>Title:*</p>
+                <input [(ngModel)]="folder.name" name="title" type="text" class="input-field"
+                    placeholder="Title of work" /><br>
+
+                <p>Description:</p><br>
+                <textarea [(ngModel)]="folder.description" name="description" class="template-description"
+                    placeholder="Description of work"></textarea>
+
+                <div class="sdbtn desktop-save">
+                    <div class="save-container">
+                        <button class="save-button darkbutton">Save</button>
+                    </div>
+                    <div class="save-container">
+                        <a (click)="confirm()"><button type="button">Delete item</button></a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
+
+<div class="ban-box banWindow">
+    <div class="ban-confirm ">
+        <h1>Are you sure?</h1>
+        <form (submit)="deleteFolder()">
+            <button class="Yes" type="submit">Yes</button> <button class="No" type="button"
+                (click)="closeWindow('.banWindow')">No</button>
+        </form>
+    </div>
+</div>
+
+<div class="ban-box folder-limit">
+    <div class="ban-confirm ">
+        <h1>Please don't do that!</h1>
+        <span>Creating more than 4 folder layers is disabled for website stability</span>
+        <button class="No" type="button" (click)="closeWindow('.folder-limit')">Ok</button>
+    </div>
+</div>
+
+<div class="no-access1-done" (click)="hide()">
+    <div class="done-container">
+        <div class="done-container1">
+            <div class="done-container-pic">
+                <img src="./assets/img/done-mark.svg">
+            </div>
+            <h5>Done!</h5>
+        </div>
+    </div>
+</div>

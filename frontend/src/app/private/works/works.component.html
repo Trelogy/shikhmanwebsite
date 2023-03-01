@@ -1,0 +1,175 @@
+<div class="ewrapper">
+
+    <div class="path">
+        <div class="path-web">
+            <div class="img-home"><a href=""><img alt="Home Icon" src="./assets/img/img-home.svg"></a></div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Works"><button>Works</button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="eheader-container">
+        <div class="eheader">
+            <div>
+                <img src="./assets/img/img-linesdecor.svg">
+                <h1>Works</h1>
+                <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+            </div>
+        </div>
+    </div>
+
+    <div class="header-quote">
+        <h3>Imagination is everything. It is the preview of life's coming attractions</h3>
+        <p>― Albert Einstein</p>
+    </div>
+
+    <div class="top-bar">
+        <div class="main-search">
+            <div class="search-bar">
+                <form (submit)="getWorks()">
+                    <input [(ngModel)]="filters['name']" name="namefilter" type="text" placeholder="Search"
+                        class="search-text">
+                    <input type="submit" class="search-button" value="Search">
+                </form>
+            </div>
+        </div>
+
+        <div class="member-button-mobile">
+            <a href="/New-Work-Template/" *ngIf="authService.loggedIn() && canEdit$ | async">
+                <button class="member-button add-work">
+                    <div class="member-filter"></div>
+                    <p>Add Work</p>
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <div class="member-bar">
+        <div class="collection-filter show-all" tabindex="0" autofocus (click)="authorFilter(undefined)">
+            <p>Show all</p>
+        </div>
+        <button *ngFor="let member of familyMembers" class="collection-filter" tabindex="0"
+            (click)="authorFilter(member._id)">
+            <img alt="member 3" src="{{member.avatar}}" class="smallcircle" />
+            <p>{{member.name}}</p>
+        </button>
+    </div>
+
+    <div class="work-list">
+
+        <ng-container *ngFor="let work of works">
+
+            <a *ngIf="!work.locked; else lockedWork"
+                (click)="requestExists('Work', work._id, {name: work.name, type: 'work', thumbnail: work.thumbnail}, false)">
+                <div class="work-box visible-work"
+                    style="background: url('{{work.thumbnail.url}}') no-repeat center; background-size: 150%;">
+
+                    <small *ngIf="work.thumbnail.duration" class="video-duration">{{work.thumbnail.duration}}</small>
+                    <img *ngIf="work.thumbnail.duration" src="./assets/img/work-button.svg" class="play-button" />
+                    <div class="work-info">
+                        <div class=work-members>
+                            <ng-container *ngFor="let author of work.authors; index as i">
+                                <div *ngIf="i < 5" class="smallcircle workcircle"><img alt="member 3"
+                                        src="{{author.avatar}}">
+                                </div>
+                            </ng-container>
+                            <div class="author-overflow" *ngIf="work.authors.length > 5">
+                                +{{work.authors.length - 5}}
+                            </div>
+                        </div>
+                        <span>{{work.name}}</span>
+                    </div>
+                    <div class="gradient"><img src="./assets/img/gradient.svg"></div>
+                    <div class="more-info">
+                        <div class="bigcollection-members ">
+                            <ng-container *ngFor="let author of work.authors; index as i">
+                                <div *ngIf="i < 5" class="not-so smallcircle"><img alt="member 3"
+                                        src="{{author.avatar}}"><span>{{author.name}}</span></div>
+                            </ng-container>
+                            <div *ngIf="work.authors.length > 5" class="more-authors">+{{work.authors.length - 5}}</div>
+                        </div>
+                        <h3>{{work.name}}</h3>
+                        <p>{{work.medium}}</p>
+
+                    </div>
+                </div>
+            </a>
+            <ng-template #lockedWork>
+                <a class="blurred-work"
+                    (click)="requestExists('Work', work._id, {name: work.name, type: 'work', thumbnail: work.thumbnail}, true)">
+                    <div class="work-box blurred-work">
+                        <img class="work-lock" src="./assets/img/locked.svg" style="position: absolute; width: 2rem;">
+                        <img src="{{work.thumbnail.url}}" style="filter: blur(20px);">
+
+                        <div class="work-info">
+                            <div class=work-members>
+                                <ng-container *ngFor="let author of work.authors; index as i">
+                                    <div *ngIf="i < 5" class="smallcircle workcircle" style="background-color: black;">
+                                    </div>
+                                </ng-container>
+                                <div class="author-overflow" *ngIf="work.authors.length > 5">
+                                    +{{work.authors.length - 5}}
+                                </div>
+                            </div>
+                            <span>------------------</span>
+                        </div>
+                    </div>
+                </a>
+            </ng-template>
+
+        </ng-container>
+
+    </div>
+    <button class="download-more"><a (click)="downloadMore()">Load more</a></button>
+</div>
+
+<div class="no-access">
+    <img src="./assets/img/about-bg1.svg" class="about-bg noaccess">
+    <img src="./assets/img/about-bg2.svg" class="about-bg2 noaccess">
+
+    <div class="no-access-box">
+        <img src="./assets/img/close.svg" class="close-button" (click)="closeWindow()" />
+        <img src="./assets/img/Lock.svg" class="lock">
+        <p>Oh no! it seems you are trying to access a "private" item.<br>Please request permission below.</p>
+        <img src="./assets/img/Key.svg" class="key" (click)="requestAccess()">
+    </div>
+
+    <div class="request-access">
+        <img src="./assets/img/close.svg" class="close-button" (click)="closeWindow()" />
+        <h2>Request Access</h2>
+        <form class="request-form" (submit)="sendRequest()" name="request-form">
+
+            <p>Organisation:</p><br>
+            <input [(ngModel)]="requestForm.organisation" name="Organisation" type="text" class="input-field" /><br>
+
+            <p>Purpose for gaining access:*</p><br>
+            <input [(ngModel)]="requestForm.purpose" name="purpose" class="otherinfo" maxlength="30" />
+
+            <p>Any other info/comments</p><br>
+            <textarea [(ngModel)]="requestForm.description" name="description" class="purpose"
+                required="true"> </textarea>
+
+
+            <button type="submit" class="submit-request">
+                <img src="./assets/img/sendKey.svg" class="request-button" />
+            </button>
+        </form>
+    </div>
+</div>
+
+<div id="pending-request" class="ban-box banWindow">
+    <div class="ban-confirm ">
+        <h1>Pending Request</h1>
+        <span>Your request is still under review, please wait for an answer before<br> trying again</span><br>
+        <button class="No" (click)="closeAlert()">OK</button>
+    </div>
+</div>
+
+<div class="ban-box capped">
+    <div class="ban-confirm ">
+        <h1>You have downloaded all the available works</h1>
+        <button class="No" type="button" (click)="toggle('.capped')">Ok</button>
+    </div>
+</div>

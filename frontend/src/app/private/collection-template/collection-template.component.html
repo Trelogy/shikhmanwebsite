@@ -1,0 +1,248 @@
+<div class="ewrapper">
+    <div class="path">
+        <div class="path-web ">
+            <div class="img-home"><a href=""><img alt="Home Icon" src="./assets/img/img-home.svg"></a></div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Collections"><button>Collections</button></a>
+            </div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Collection-Template/{{collection._id}}"><button>Edit Collection</button></a>
+            </div>
+        </div>
+    </div>
+    <div class="eheader-container">
+        <div class="eheader">
+            <img src="./assets/img/img-linesdecor.svg">
+            <h1>{{title}}</h1>
+            <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+        </div>
+    </div>
+
+    <div class="template-container">
+
+        <div class="template-list">
+            <div class="template-topbar">
+                <button class="member-button back">
+                    <div class="member-filter"></div>
+                </button>
+
+                <div class="search-bar c-template-bar">
+                    <input type="text" [(ngModel)]="filter" name="filter" placeholder="Search" class="search-text">
+                </div>
+                <div class="template-buttons">
+                    <button class="member-button add-image" (click)="addItem('Folder')">
+                        <div class="member-filter"></div>
+                        <p>Folder</p>
+                    </button>
+                    <button class="member-button add-image addItem" (click)="addItem('Item')">
+                        <div class="member-filter"></div>
+                        <p>Item</p>
+                    </button>
+                </div>
+            </div>
+
+            <div class="template-view">
+                <div class="templates">
+
+                    <div class="template-item" *ngFor="let item of items | searchfilter: filter; index as i">
+                        <div *ngIf="item.type == 'folder';else collectionItem" class="template-img template-folder">
+                            <div class="template-folder-info" (click)="gotoFolder(item._id)">
+                                <img src="./assets/img/Folder.png" style="background: url('{{item.thumbnail}}') no-repeat; background-color: lightgray;
+                                background-size: cover;" alt="Folder">
+                                <h6>{{item.name}}</h6>
+                                <span>{{item.content.length}} item<span *ngIf="item.content.length != 1">s</span></span>
+                            </div>
+                            <label class="flag">
+                                <input [id]="'check' + i" type="checkbox" name="thumbnail" class="flagcheck"
+                                    [checked]="item.isThumbnail"
+                                    (click)="setThumbnail(i, {_id: item._id, type: item.type, path: item.thumbnail})"><img
+                                    class="flagimg" src="./assets/img/Flag.svg">
+                            </label>
+                        </div>
+
+                        <ng-template #collectionItem>
+                            <div class="template-img"
+                                style="background: url('{{item.thumbnail}}') no-repeat; background-size: cover;">
+                                <div class="gradient" (click)="gotoItem(item._id)">
+                                    <img src="./assets/img/gradient.svg" alt="gradient">
+                                </div>
+                                <label class="flag">
+                                    <input [id]="'check' + i" type="checkbox" name="thumbnail" class="flagcheck"
+                                        [checked]="item.isThumbnail"
+                                        (click)="setThumbnail(i, {_id: item._id, type: item.type, path: item.thumbnail})"><img
+                                        class="flagimg" src="./assets/img/Flag.svg">
+                                </label>
+                                <p>{{item.name}}</p>
+                            </div>
+                        </ng-template>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="slidecontainer">
+                <input type="range" min="0" max="100" value="0" class="slider" (input)="scrollView()">
+            </div>
+            <div class="sdbtn mobile-save">
+                <div class="save-container">
+                    <button class="save-button darkbutton" (click)="updateCollection()">Save</button>
+                </div>
+                <div class="save-container">
+                    <a *ngIf="this.collection._id"><button (click)="confirm()">Delete collection</button></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="template-details">
+            <form (submit)="updateCollection()" class="request-form template-form">
+                <p>Title:*</p>
+                <input [(ngModel)]="collection.name" name="title" type="text" class="input-field"
+                    placeholder="Title of collection" /><br>
+
+                <div class="Date-container">
+                    <div class="date-field">
+                        <p>Date Started:</p>
+                        <input [(ngModel)]="collection.started" name="started" type="text" autocomplete="off"
+                            maxlength="10" placeholder="YYYY-MM-DD" (keydown)="dateCheck($event, 'started')"
+                            (ngModelChange)="dateFormat($event, 'started')" style="transition: 0.3s;"
+                            [style.color]="invalidStartDate ? 'red' : 'black'" />
+                    </div>
+                    <div class="date-field">
+                        <p>Date Finished:</p>
+                        <input [(ngModel)]="collection.finished" name="finished" type="text" autocomplete="off"
+                            maxlength="10" placeholder="YYYY-MM-DD" (keydown)="dateCheck($event, 'finished')"
+                            (ngModelChange)="dateFormat($event, 'finished')" style="transition: 0.3s;"
+                            [style.color]="invalidFinishDate ? 'red' : 'black'" />
+                        <br>
+                    </div>
+                </div>
+
+
+                <p>Description:</p><br>
+                <textarea [(ngModel)]="collection.description" name="description" class="template-description"
+                    placeholder="Description of collection"></textarea>
+
+                <p>Who can see your collection?*</p><br>
+                <div class="template-check">
+                    <label class="check-button">
+                        <input id="public" type="radio" name="Selection" [checked]="collection.public"
+                            (click)="publicItem(true)"><span class="admin-check"></span>
+                        Public
+                        <h6>Anyone with any level of access</h6>
+                    </label>
+                    <label class="check-button">
+                        <input type="radio" name="Selection" [checked]="!collection.public"
+                            (click)="publicItem(false)"><span class="admin-check"></span>
+                        Private
+                        <h6>Only other family members and friends</h6>
+                    </label>
+
+                </div>
+            </form>
+
+            <div class="add-author-container">
+                <div class="author-list">
+                    <a *ngFor="let user of selectedMembers" href="User/{{user._id}}">
+                        <div class="request-user author-avatar">
+                            <img src="{{user.avatar}}" alt="author-avatar">
+                        </div>
+                    </a>
+                </div>
+
+                <div class="member-button add-author" tabindex="0">
+                    <div class="member-filter"></div>
+                    <p>Add Owner</p>
+                    <div class="author-window">
+                        <h3>Add Owner</h3>
+                        <hr>
+                        <div class="author-wrapper">
+                            <label *ngFor="let user of members; index as i" class="select-author">
+                                <input type="checkbox" [checked]="user.checked"><img src="{{user.avatar}}"
+                                    alt="select-author-avatar" class="check-author-avatar" (click)="selectMember(user)">
+                                <span>{{user.name}}</span><img src="./assets/img/check.svg" alt="checkmark"
+                                    class="checkmark">
+                            </label>
+
+                        </div>
+                        <hr>
+                    </div>
+
+                </div>
+            </div>
+            <div class="sdbtn desktop-save">
+                <div class="save-container">
+                    <button class="save-button darkbutton" (click)="updateCollection()">Save</button>
+                </div>
+                <div class="save-container">
+                    <a *ngIf="this.collection._id"><button (click)="confirm()">Delete collection</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="ban-box banWindow">
+    <div class="ban-confirm ">
+        <h1>Are you sure?</h1>
+        <form (submit)="deleteCollection()">
+            <button class="Yes" type="submit">Yes</button> <button class="No" type="button"
+                (click)="closeWindow()">No</button>
+        </form>
+    </div>
+</div>
+
+<div class="ban-box cant-self">
+    <div class="ban-confirm alert-window cantremove">
+        <h1>You can't do that!</h1>
+        <p>You can not remove yourself as the owner of this collection if you are the only owner. Please add a new owner
+            or
+            delete the collection.</p>
+        <form><button class="No" type="button" (click)="close('.cant-self')">Ok</button>
+        </form>
+    </div>
+</div>
+
+<div class="ban-box cant-empty">
+    <div class="ban-confirm alert-window cantremove">
+        <h1>The collection can't be empty!</h1>
+        <p>A collection has to have something in it, you silly goose!</p>
+        <form><button class="No" type="button" (click)="close('.cant-empty')">Ok</button></form>
+    </div>
+</div>
+
+<div class="ban-box cant-empty">
+    <div class="ban-confirm alert-window usurepub">
+        <h1>Be careful!</h1>
+        <p>Setting this as “Public” will allow anyone to see this collection. It is strongly recommended to keep
+            all works/collections as “Private” for privacy reasons.</p>
+        <form (submit)="confirmpublic()">
+            <button class="Yes" type="submit">Proceed</button> <button class="No" type="button"
+                (click)="close('.usurepub')">Nevermind</button>
+        </form>
+    </div>
+</div>
+
+<div class="ban-box remove-self">
+    <div class="alert-window confirmremove">
+        <h1 style="font-size: 18px;">Are you sure you want to remove youself as owner?</h1>
+        <p style="font-size: 15px">You will not be able to edit this page unless added back by the original owner.</p>
+        <div class="confirmbuttons">
+            <button style="margin: 0;" class="Yes" (click)="removeSelf()">Yes</button>
+            <button style="margin: 0;" class="No" (click)="close('.remove-self')" type="button">No</button>
+        </div>
+    </div>
+</div>
+
+<div class="no-access1-done" (click)="hide()">
+    <div class="done-container">
+        <div class="done-container1">
+            <div class="done-container-pic">
+                <img src="./assets/img/done-mark.svg">
+            </div>
+            <h5>Done!</h5>
+        </div>
+    </div>
+</div>

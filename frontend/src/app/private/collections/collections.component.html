@@ -1,0 +1,186 @@
+<div class="ewrapper">
+
+    <div class="path">
+        <div class="path-web">
+            <div class="img-home"><a href=""><img alt="Home Icon" src="./assets/img/img-home.svg"></a></div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Collections"><button>Collections</button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="eheader-container">
+        <div class="eheader collections-header">
+            <div>
+                <img src="./assets/img/img-linesdecor.svg">
+                <h1>Collections</h1>
+                <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+            </div>
+        </div>
+    </div>
+
+    <div class="header-quote">
+        <h3>Collecting seems to bring out that primitive instinct for the hunt in some of its
+            devotees, who stalk their prey with skill.</h3>
+        <p>― Alicia Craig Faxon</p>
+    </div>
+
+    <div class="top-bar">
+        <div class="main-search">
+            <div class="search-bar">
+                <form (submit)="getCollections()">
+                    <input [(ngModel)]="filters['name']" name="name.filter" type="text" placeholder="Search"
+                        class="search-text">
+                    <input type="submit" class="search-button" value="Search">
+                </form>
+            </div>
+        </div>
+
+        <div class="member-button-mobile">
+            <a href="New-Collection-Template" *ngIf="authService.loggedIn() && canEdit$ | async">
+                <button class="member-button add-collection">
+                    <div class="member-filter"></div>
+                    <p>Add Collection</p>
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <div class="member-bar">
+        <div class="collection-filter show-all" tabindex="0" autofocus (click)="authorFilter(undefined)">
+            <p>Show all</p>
+        </div>
+        <button *ngFor="let member of familyMembers" class="collection-filter" tabindex="0"
+            (click)="authorFilter(member._id)">
+            <img alt="member 3" src="{{member.avatar}}" class="smallcircle" />
+            <p>{{member.name}}</p>
+        </button>
+    </div>
+
+    <div class="member-collections">
+
+        <ng-container *ngFor="let collection of collections">
+            <div class="boxc" *ngIf="!collection.locked; else locked">
+                <div class="boxcinner">
+                    <button class="collect-hover"
+                        (click)="requestExists('Collection', collection._id, {name: collection.name, type: 'collection', thumbnail: collection.thumbnails[0].path}, false)"></button>
+
+                    <div class="bigcollection">
+
+                        <div class="bigcollection-members ">
+                            <div class="not-so smallcircle" *ngFor="let author of collection.authors; index as i"><img
+                                    alt="member 2" src="{{author.avatar}}"><span>{{author.name}}</span></div>
+                        </div>
+                        <h3>{{collection.name}}</h3>
+                        <p>{{collection.content.length}} items</p>
+                    </div>
+                    <div class="boxgroup">
+                        <ng-container *ngIf="collection.thumbnails.length > 0">
+                            <div *ngFor="let thumbnail of collection.thumbnails">
+                                <div class="boxpicture" [ngClass]="{'folder': thumbnail.type == 'folder'}">
+                                    <img *ngIf="thumbnail.type == 'item'" alt="Collection 1"
+                                        src="{{thumbnail['path']}}">
+                                    <img *ngIf="thumbnail.type == 'folder'" alt="Collection 1"
+                                        src="./assets/img/Folder.png" style="background: url('{{thumbnail.path}}') no-repeat; background-color: lightgray;
+                                background-size: cover;">
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="boxcirclegroup">
+                        <ng-container *ngFor="let author of collection.authors; index as i">
+                            <div *ngIf="i < 6" class="smallcircle"><img alt="member 3" src="{{author.avatar}}"></div>
+                        </ng-container>
+                        <span *ngIf="collection.authors.length > 6"> +{{collection.authors.length - 6}} </span>
+                    </div>
+                </div>
+                <p>{{collection.name}}</p>
+            </div>
+
+            <ng-template #locked>
+                <div class="boxc">
+                    <div class="boxcinner">
+                        <button class="collect-hover"
+                            (click)="requestExists('Collection', collection._id, {name: collection.name, type: 'collection', thumbnail: collection.thumbnails[0].path}, true)"></button>
+                        <div class="boxgroup">
+                            <ng-container *ngIf="collection.thumbnails.length > 0">
+                                <div *ngFor="let thumbnail of collection.thumbnails">
+                                    <div *ngIf="thumbnail['path']" class="boxpicture locked"
+                                        [ngClass]="{'folder': thumbnail['path'].includes('Folder.svg')}">
+                                        <img alt="lock" class="collection-lock" src="./assets/img/locked.svg">
+                                        <img alt="Collection 1" class="blurred-image" src="{{thumbnail['path']}}">
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                        </div>
+                        <div class="boxcirclegroup">
+                            <ng-container *ngFor="let author of collection.authors; index as i">
+                                <div *ngIf="i < 6" class="smallcircle"
+                                    style="background-color: black; background-size: 20%;"></div>
+                            </ng-container>
+                            <span *ngIf="collection.authors.length > 6"> +{{collection.authors.length - 6}} </span>
+                        </div>
+                    </div>
+                    <img class="name-lock" src="./assets/img/locked-name.svg">
+                    <p>_ _ _ _ _ _ _ _ _</p>
+                </div>
+            </ng-template>
+
+        </ng-container>
+
+    </div>
+
+    <button class="download-more"><a (click)="downloadMore()">Load More</a></button>
+</div>
+
+<div class="no-access">
+    <img src="./assets/img/about-bg1.svg" class="about-bg noaccess">
+    <img src="./assets/img/about-bg2.svg" class="about-bg2 noaccess">
+
+    <div class="no-access-box">
+        <img src="./assets/img/close.svg" class="close-button" (click)="closeWindow()" />
+        <img src="./assets/img/Lock.svg" class="lock">
+        <p>Oh no! it seems you are trying to access a "private" item.<br>Please request permission below.</p>
+        <img src="./assets/img/Key.svg" class="key" (click)="requestAccess()">
+    </div>
+
+    <div class="request-access">
+        <img src="./assets/img/close.svg" class="close-button" (click)="closeWindow()" />
+        <h2>Request Access</h2>
+        <form class="request-form" (submit)="sendRequest()" name="request-form">
+
+            <p>Organisation:</p><br>
+            <input [(ngModel)]="requestForm.organisation" name="Organisation" type="text" class="input-field" /><br>
+
+            <p>Purpose for gaining access:*</p><br>
+            <input [(ngModel)]="requestForm.purpose" name="purpose" class="otherinfo" maxlength="30" />
+
+            <p>Any other info/comments</p><br>
+            <textarea [(ngModel)]="requestForm.description" name="description" class="purpose"
+                required="true"> </textarea>
+
+
+            <button type="submit" class="submit-request">
+                <img src="./assets/img/sendKey.svg" class="request-button" />
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<div id="pending-request" class="ban-box banWindow">
+    <div class="ban-confirm ">
+        <h1>Pending Request</h1>
+        <span>Your request is still under review, please wait for an answer before<br> trying again</span><br>
+        <button class="No" (click)="closeAlert()">OK</button>
+    </div>
+</div>
+
+<div class="ban-box capped">
+    <div class="ban-confirm ">
+        <h1>You have downloaded all the available collections</h1>
+        <button class="No" type="button" (click)="toggle('.capped')">Ok</button>
+    </div>
+</div>

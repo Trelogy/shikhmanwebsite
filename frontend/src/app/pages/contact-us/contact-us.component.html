@@ -1,0 +1,49 @@
+<div class="contact-container">
+        <div class="wrapper-path-c">
+
+            <div class="path-white">
+                <a href="" class="pic-home"><img alt="Home Icon" src="./assets/img/img-home.svg"></a>
+                <div class="pathnext-white">
+                    <div class="img-arrow-white">
+                      <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+                    </div>
+                    <a href="Contact-Us"><button>Contact us</button></a>
+                </div>
+            </div>
+
+            <div class="contact-container2">
+                <div class="contact-header">
+                    <div class="vector-lines2 scl-mobile">
+                        <img src="./assets/img/img-linesdecor.svg">
+                    </div>
+                    <h1>Contact us</h1>
+                    <div class="vector-lines2 scl-mobile">
+                        <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <h5>Let's talk? Send us your message and we will contact you shortly.</h5>
+
+                    <form (submit)="sendMessage()">
+                        <div class="contact-inputs">
+                            <div class="contact-inputs2">
+                                <input [(ngModel)]="request.name" name="name" type="text" placeholder="Your name" class="user-email" id="user" required />
+                                <input [(ngModel)]="request.email" name="email" type="text" placeholder="Your email" class="user-email" id="email" required />
+                            </div>
+                            <textarea [(ngModel)]="request.description" name="message" class="message-box" placeholder="Type your message" required></textarea>
+                        </div>
+                        <input type="submit" value="Send message" class="send-button"/>
+                    </form>
+                </div>
+
+                <!--message sent-->
+                <div class="message-sent">
+                    <p id="message-status">Your message was sent</p>
+                    <a href="Shikhman"><input type="button" value="Back to item page" class="back-button"></a> 
+                </div>  
+            </div>
+        </div>
+   
+</div>
+

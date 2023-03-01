@@ -1,0 +1,53 @@
+<div class="family-container1">
+
+  <div class="wrapper-path-c">
+
+    <div class="path-white">
+      <a href="" class="pic-home"><img alt="Home Icon" src="./assets/img/img-home.svg"></a>
+      <div class="pathnext-white">
+          <div class="img-arrow-white">
+            <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+          </div>
+          <a href="Family-Member"><button>Family members</button></a>
+    </div>
+    </div>
+    
+    <div class="family-container2"> 
+      <div class="family-container3">
+        <div class="family-header">
+          <div class="vector-lines"><div class="vector1"></div></div>
+          <h2 class="h1">Family members</h2>
+          <div class="vector-lines"><div class="vector2"></div></div>
+        </div>
+        <div class="Members">
+          <div *ngFor="let user of familyMembers" class="fmember">
+            <div class="circlebox">
+              <a href="User/{{user._id}}"><img alt="member 1" [src]="user.avatar"></a>
+            </div>
+            <p>{{user.name}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="family-container4">
+        <div class="vector-lines"><div class="vector3"></div></div>
+        <div class="quote">
+          <div class="img-quote">
+            <img alt="quote" src="./assets/img/img-quote.svg">
+          </div>
+          <div class="quote-text1">
+            <p>Families are like branches on a tree,
+              we grow in different directions yet our roots remain as one.
+            </p>
+          </div>
+          <div class="quote-text2">
+            <p>― Unknown</p>
+          </div>
+        </div>
+        <div class="vector-lines"><div class="vector4"></div></div>
+
+      </div>
+      
+    </div>
+  </div>
+</div>

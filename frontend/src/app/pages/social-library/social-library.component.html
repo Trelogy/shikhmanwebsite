@@ -1,0 +1,126 @@
+<img src="./assets/img/about-bg1.svg" class="about-bg">
+<img src="./assets/img/about-bg2.svg" class="about-bg2">
+
+
+<div class="ewrapper">
+    <div class="path-dark">
+        <a href="" class="pic-home"><img alt="Home Icon" src="./assets/img/img-home.svg"></a>
+        <div class="pathnext-dark">
+            <div class="img-arrow-dark">
+              <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+            </div>
+            <a href="Profile"><button>{{user.name}} {{user.lastName}}</button></a>
+        </div>
+        <div class="pathnext-dark">
+            <div class="img-arrow-dark">
+              <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+            </div>
+            <a href="Social-Library"><button>Social library</button></a>
+        </div>
+    </div>
+
+
+    <div class="eheader-container">
+        <div class="eheader scl-mobile">
+            <img src="./assets/img/img-linesdecor.svg">
+            <h1 id="Library">Our social library</h1>
+            <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+        </div>
+    </div>
+    <p class="Follow-us">You can follow us on social media</p>
+</div>
+
+<div class="sclc-mobile">
+    <div *ngIf="members" class="library-container">
+        <div *ngFor="let member of members; index as i" class="library-element">
+            <div class="scl-mobile-inside">
+                <div class="scl-mobile-i-u"> 
+                    <a href="User/{{member._id}}">
+                        <div class="library-circlebox">
+                            <img alt="member avatar" [src]="member.avatar">
+                        </div>
+                    </a>
+                
+                    <div class="lib-socialmedia">
+                        <p>{{member.name}}:</p>
+                        <div *ngIf="member.socialMedia" class="social-buttons">
+                            <div *ngFor="let site of member.socialMedia; index as siteIndex" class="social-anchor" tabindex="0">
+                                <img class="small-button" src="./assets/img/social-media/black/{{site.site}}.svg" />
+                                
+                                    <div class="account-box"><!--Pop up for user social media links-->
+                        
+                                        <h5>Select Profile</h5>
+
+                                        <div class="account-list">
+
+                                            <div *ngFor="let account of site.accounts; index as accountIndex" class="social-account">
+                                                <button *ngIf="user._id == member._id" (click)="deleteMedia(siteIndex, accountIndex)">Delete item</button>
+                                                <a *ngIf="account.link" href="{{account.link}}" target="_blank">
+                                                    <img src="./assets/img/social-media/{{site.site}}.svg"/>
+                                                    <span >{{account.user}}</span>
+                                                </a>
+
+                                                <div *ngIf="!account.link">
+                                                    <img src="./assets/img/social-media/{{site.site}}.svg" />
+                                                    <span>{{account.user}}</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a *ngIf="user._id == member._id"><button class="add-button" (click)="addMedia()">
+                        <div class="member-filter"></div>Add
+                    </button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="ban-box site-select">
+        <div class="social-window">
+            <h1>Add social media</h1>
+            <hr>
+            <form (submit)="saveChanges()">
+                <div class="social-list">
+                    <label *ngFor="let item of socialMedia" class="social-icon">
+                        <input type="radio" name="socialIcon" class="social-check" (click)="changeAccount(item)"><img
+                            src="./assets/img/social-media/{{item.name}}.svg">
+
+                        <span class="icon-anchor"></span>
+                    </label>
+                </div>
+                <hr>
+                <div class="accountLink-container">
+                    <p class="social-site">Social media link</p>
+                    <input [(ngModel)]="input" name="userInput" type="text" class="account-link"
+                        placeholder="Link to social network" autocomplete="off">
+
+                    <div class="cover"></div>
+                    <button type="submit" class="social-send">Send</button>
+                </div>
+            </form>
+        </div>
+        <div class="window-outside" (click)="closeWindow()"></div>
+</div>
+
+<div class="no-access username-box">
+        <div class="social-window">
+            <h1>Display name</h1>
+            <hr>
+            <form (submit)="saveChanges()">
+                <div class="accountLink-container">
+                    <input [(ngModel)]="input" name="userInput2" type="text" class="account-link"
+                        placeholder="Your social media identifier" autocomplete="off">
+
+                    <button type="submit" class="social-send">Send</button>
+                </div>
+            </form>
+        </div>
+        <div class="window-outside" (click)="closeWindow()"></div>
+</div>

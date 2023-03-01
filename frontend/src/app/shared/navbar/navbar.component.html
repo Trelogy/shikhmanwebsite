@@ -1,0 +1,169 @@
+<nav class="nav-bar">
+  <div class="containernav">
+    <figure><a href="Shikhman" class="LOGO">
+        <img alt="Logo" src="./assets/img/img-logo.svg"></a>
+    </figure>
+    <div class="Menu-1">
+      <a href="Family-Member">Family Members</a>
+      <a href="Works">Works</a>
+      <a href="Collections">Collections</a>
+    </div>
+    <div *ngIf="!authService.loggedIn(); else showSignin" class="Navbuttons">
+      <a href="login" class="Loginbtn"><button type="button">Log in</button></a>
+      <span class="or">or</span>
+      <a href="signup" class="Signupbtn Sing-up"><button type="button">Sign up</button></a>
+    </div>
+    <ng-template #showSignin>
+
+      <ul class="Menu-2-pop-up">
+        <li class="Dropdown2"><a><button><img alt="Profile Picture" [src]="avatar()"></button></a>
+          <ul>
+            <li *ngIf="!(['Guest', 'Guest with access'].includes(userRole())) "><a href="Profile"><button>My
+                  Profile</button></a></li>
+            <hr *ngIf="!(['Guest', 'Guest with access'].includes(userRole())) ">
+            <li><a href="Personal-Settings"><button>Personal Settings</button></a></li>
+            <hr>
+            <li><a class="logout"><button (click)="authService.logout()"><img alt="Logout Icon"
+                    src="./assets/img/img-leave.svg">Leave</button></a></li>
+          </ul>
+        </li>
+      </ul>
+
+    </ng-template>
+    <ul class="Menu-2-pop-up">
+      <li class="Dropdown"><button><img alt="more options" src="./assets/img/img-dropdown.svg"></button>
+        <ul>
+          <div *ngIf="loggedIn()">
+            <li><a href="About-Us"><button>About Us</button></a></li>
+            <hr>
+          </div>
+          <li><a href="Social-Library"><button>Social Library</button></a></li>
+          <hr>
+          <li><a href="Contact-Us"><button>Contact Us</button></a></li>
+          <div *ngIf="userRole() == 'Admin'">
+            <hr>
+            <li><a href="Admin-Panel"><button>Admin Panel</button></a></li>
+          </div>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!--navbar mobile-->
+<nav class="navbar-mobile" (scroll)="onscrollm()" [ngClass]="navbarfixed?'menufixedmobile':'navbar-mobile'">
+  <div class="navbar-mobile-container">
+
+      <a class="logo-mobile" href="Shikhman">
+        <img alt="Logo" src="./assets/img/img-logo.svg">
+      </a>
+
+      <div class="navbar-buttons-mobile">
+
+        <div *ngIf="authService.loggedIn();">
+          <button (click)="setActive()" class="profile-dropdown-mobile"><img alt="Profile Picture" [src]="avatar()"></button>
+          <div id="profile-drop" class="profile-dropdown-mobile-c" [ngClass]="{'profile-dropdown-mobile-c-active': active}">
+
+            <div class="profile-dropdown-mobile-c2">
+              <div class="profile-dropdown-mobile-l">
+                <a href="Profile" *ngIf="!(['Guest', 'Guest with access'].includes(userRole())) " style="margin-top: 10px;">My profile</a>
+                <hr *ngIf="!(['Guest', 'Guest with access'].includes(userRole())) ">
+              </div>
+              <div class="profile-dropdown-mobile-l">
+                <a href="Personal-Settings">Personal settings</a>
+                <hr>
+              </div>
+              <div class="profile-dropdown-mobile-l3">
+                <a (click)="authService.logout()" class="profile-dropdown-mobile-l2">
+                  <img alt="Logout Icon" src="./assets/img/img-leave.svg">Leave
+                </a>
+              </div>
+            </div>
+           
+          </div>
+        </div>
+
+        <div class="button-dropdown-mobile">
+          <button (click)="setActive2()" class="btn-dropdown-mobile"><img alt="more options" src="./assets/img/img-dropdown.svg"></button>       
+          <div class="profile-dropdown-mobile-2" [ngClass]="{'profile-dropdown-mobile-2-active': activebtn}">
+
+            <div class="profile-dropdown-mobile-c2">
+              <div *ngIf="!authService.loggedIn();" class="profile-dropdown-mobile-l">
+                <a href="login" style="margin-top: 10px;">Log in</a>
+                <hr>
+              </div>
+              <div *ngIf="!authService.loggedIn();" class="profile-dropdown-mobile-l">
+                <a href="signup">Sign up</a>
+                <hr>
+              </div>
+              <div *ngIf="!authService.loggedIn();" class="profile-dropdown-mobile-l">
+                <a href="Family-Member">Family Members</a>
+                <hr>
+              </div>
+              <div *ngIf="authService.loggedIn();" class="profile-dropdown-mobile-l">
+                <a href="Family-Member" style="margin-top: 10px;">Family Members</a>
+                <hr>
+              </div>
+              <div class="profile-dropdown-mobile-l">
+                <a href="Works">Works</a>
+                <hr>
+              </div>
+              <div class="profile-dropdown-mobile-l">
+                <a href="Collections">Collections</a>
+                <hr>
+              </div>
+              <div class="profile-dropdown-mobile-l">
+                <a href="About-Us">About Us</a>
+                <hr>
+              </div>
+              <div class="profile-dropdown-mobile-l">
+                <a href="Social-Library">Social Library</a>
+                <hr>
+              </div>
+              <div *ngIf="authService.loggedIn();" class="profile-dropdown-mobile-l">
+                <a href="Contact-Us">Contact Us</a>
+                <hr>
+              </div>
+              <div *ngIf="!authService.loggedIn();" class="profile-dropdown-mobile-l">
+                <a href="Contact-Us" style="margin-bottom: 1rem;">Contact Us</a>
+              </div>
+              <div *ngIf="userRole() == 'Admin'" class="profile-dropdown-mobile-l">
+                <a href="Admin-Panel" style="margin-bottom: 1rem;">Admin Panel</a>
+              </div>
+            </div>
+           
+          </div>
+
+          <!--<ul class="Menu-2-pop-up">
+            <li class="Dropdown"><button><img alt="more options" src="./assets/img/img-dropdown.svg"></button>
+              <ul>
+                <div *ngIf="!authService.loggedIn();">
+                  <li><a href="login"><button>Log in</button></a></li>
+                  <hr>
+                  <li><a href="signup"><button>Sign up</button></a></li>
+                  <hr>
+                </div>
+                <li><a href="Family-Member"><button>Family Members</button></a></li>
+                <hr>
+                <li><a href="Works"><button>Works</button></a></li>
+                <hr>
+                <li><a href="Collections"><button>Collections</button></a></li>
+                <hr>
+                <li><a href="About-Us"><button>About Us</button></a></li>
+                <hr>
+                <li><a href="Social-Library"><button>Social Library</button></a></li>
+                <hr>
+                <li><a href="Contact-Us"><button>Contact Us</button></a></li>
+                <div *ngIf="userRole() == 'Admin'">
+                  <hr>
+                  <li><a href="Admin-Panel"><button>Admin Panel</button></a></li>
+                </div>
+              </ul>
+            </li>
+          </ul>-->
+
+        </div>
+      </div>
+    </div>
+
+</nav>

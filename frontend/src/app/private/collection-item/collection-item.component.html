@@ -1,0 +1,303 @@
+<div *ngIf="isLoaded" class="collection-container">
+    <div class="wrapper-path-c">
+
+        <div class="path-dark">
+            <a href="" class="pic-home"><img alt="Home Icon" src="./assets/img/img-home.svg"></a>
+            <div class="pathnext-dark">
+                <div class="img-arrow-dark">
+                  <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+                </div>
+                <a href="Collections"><button>Collections</button></a>
+            </div>
+            <div *ngFor="let path of data.path" class="pathnext-dark">
+                <div class="img-arrow-dark">
+                  <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+                </div>
+                <a href="{{path.url}}"><button>{{path.name}}</button></a>
+            </div>
+        </div>
+
+        <div class="collection-page-container no-mobile">
+
+            <div class="collection-page-container2 no-mobile">
+                <div class="collection-page-container3 no-mobile">
+                    <div class="collection-page-title no-mobile">
+                        <h1>{{data.item.name}}</h1>
+                        <p>{{data.item.date}}</p>
+                    </div>
+                    <div class="collection-page-users no-mobile">
+                        <a *ngFor="let author of data.authors" href="User/{{author._id}}">
+                            <div class="author-circlebox">
+                                <img alt="authorAvatar" src="{{author.avatar}}">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+               <div class="collection-page-container4 no-mobile"> 
+                <div class="collection-page-container5 no-mobile">
+                    <div class="collection-page-sub2 no-mobile">
+                        <h2 *ngIf="data.item.medium">Medium: </h2>
+                        <p> {{data.item.medium}}</p>
+                    </div>
+                    <div class="collection-page-buttons no-mobile">
+                        <div class="collectionbtns no-mobile">
+                            <a href="Collection-Item-Template/{{data.item._id}}">
+                                <div class="member-button edit-work" *ngIf="data.isAuthor">
+                                    <div class="member-filter"></div>
+                                    <p>Edit item</p>
+                                </div>
+                            </a>
+                        </div>
+          
+                    </div>
+                </div>
+                <div class="collection-page-container7 no-mobile">
+                    <div class="collection-page-sub no-mobile">
+                        <h2 *ngIf="data.item.description">About</h2>
+                        <p>{{data.item.description}}</p>
+                    </div>
+                    <div class="collection-page-btn no-mobile">
+                        <a href="Collection-Item/{{data.prev}}"><img src="./assets/img/Arrow.svg" class="inverted-line"></a>
+                        <p>Item {{data.collection.content.indexOf(data.item._id)+1}}/{{data.collection.content.length}}</p>
+                        <a href="Collection-Item/{{data.next}}"><img src="./assets/img/Arrow.svg"></a>
+                    </div>
+                    <hr>
+                </div>
+
+               </div> 
+            </div>
+            <div class="collection-page-gallery2 no-mobile">
+                <div class="collection-page-data no-mobile">
+                    <div class="collection-page-data2 no-mobile">
+                        <div class="collection-page-pic2 no-mobile">
+                            <img src="{{data.content[0].imagePath}}" class="work-image" />
+                        </div>
+                        <p>{{data.content[0].description}}</p>
+                    </div>
+                    <div class="collection-page-data3 no-mobile">
+                        <ng-container *ngFor="let picture of data.content; index as i">
+                            <div *ngIf="i > 0" class="collection-page-data4">
+                                <div class="collection-page-title2">
+                                    <h4>{{picture.name}}</h4>
+                                    <p>{{picture.date}}</p>
+                                </div>
+                                <div class="collection-page-data5 no-mobile">
+                                    <div class="collection-page-pic3">
+                                        <img src="{{picture.imagePath}}">
+                                    </div>
+                                    <p>{{picture.description}}</p>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="collection-page-footpage no-mobile">
+                    <hr>
+                    <div class="collection-page-btn no-mobile">
+                        <a href="Collection-Item/{{data.prev}}"><img src="./assets/img/Arrow.svg" class="inverted-line"></a>
+                        <p>Item {{data.collection.content.indexOf(data.item._id)+1}}/{{data.collection.content.length}}</p>
+                        <a href="Collection-Item/{{data.next}}"><img src="./assets/img/Arrow.svg"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Mobile devices-->
+        <div class="collection-page-containerm">
+            <div class="collection-page-container2m">
+                <div class="v2">
+                    <div class="collection-page-usersm">
+                        <a *ngFor="let author of data.authors" href="User/{{author._id}}">
+                            <div class="author-circlebox">
+                                <img alt="authorAvatar" src="{{author.avatar}}">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="v3">
+                        <div class="collectionbtns">
+                            <a href="Collection-Item-Template/{{data.item._id}}">
+                                <div class="member-button edit-work" *ngIf="data.isAuthor">
+                                    <div class="member-filter"></div>
+                                    <p>Edit Work</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!--here folder button-->
+                    </div>
+                </div>
+
+               <div class="collection-page-container4m"> 
+                    <div class="collection-page-container5m">
+                        <div class="collection-page-titlem">
+                            <h1>{{data.item.name}}</h1>
+                            <p>{{data.item.date}}</p>
+                        </div>
+                        <div class="collection-page-sub2m">
+                            <h2 *ngIf="data.item.medium">Medium: </h2>
+                            <p>{{data.item.medium}}</p>
+                        </div>
+                        <div class="collection-page-subm">
+                            <h2 *ngIf="data.item.description">About</h2>
+                            <p>{{data.item.description}}</p>
+                            <button class="read-btn">Read more</button>
+                        </div> 
+                    </div>
+                    <div class="collection-page-container6m">
+                        <div class="collection-page-btnm">
+                            <a href="Collection-Item/{{data.prev}}"><img src="./assets/img/Arrow.svg" class="inverted-line"></a>
+                            <p>Item {{data.collection.content.indexOf(data.item._id)+1}}/{{data.collection.content.length}}</p>
+                            <a href="Collection-Item/{{data.next}}"><img src="./assets/img/Arrow.svg"></a>
+                        </div>
+                        <hr>
+                    </div>
+               </div> 
+            </div>
+            <div class="collection-page-gallerym">
+                <div class="collection-page-data">
+                    <div class="collection-page-data2">
+                        <div class="collection-page-pic2">
+                            <img src="{{data.content[0].imagePath}}" class="work-image" />
+                        </div>
+                        <p>{{data.content[0].description}}</p>
+                        <button class="read-btn">Read more</button>
+                    </div>
+                    
+                    <div class="collection-page-data3">
+                        <ng-container *ngFor="let picture of data.content; index as i">
+                            <div *ngIf="i > 0" class="collection-page-data4">
+                                <div class="collection-page-title2">
+                                    <h4>{{picture.name}}</h4>
+                                    <p>{{picture.date}}</p>
+                                </div>
+                                <div class="collection-page-data5">
+                                    <div class="collection-page-pic3">
+                                        <img src="{{picture.imagePath}}">
+                                    </div>
+                                    <p>{{picture.description}}</p>
+                                    <button class="read-btn">Read more</button>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                </div>
+                <div class="collection-page-footpage">
+                    <hr>
+                    <div class="collection-page-btn">
+                        <a href="Collection-Item/{{data.prev}}"><img src="./assets/img/Arrow.svg" class="inverted-line"></a>
+                        <p>Item {{data.collection.content.indexOf(data.item._id)+1}}/{{data.collection.content.length}}</p>
+                        <a href="Collection-Item/{{data.next}}"><img src="./assets/img/Arrow.svg"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!--<div *ngIf="isLoaded" class="ewrapper">
+
+    <div class="path fixed">
+        <div class="path-web">
+            <div class="img-home"><a href=""><img alt="Home Icon" src="./assets/img/img-home.svg"></a></div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Collections"><button>Collections</button></a>
+            </div>
+            <div *ngFor="let path of data.path" class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="{{path.url}}"><button>{{path.name}}</button></a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="work-panel">
+        <div class="panel-left">
+
+            <h2 class="work-name">{{data.item.name}}</h2>
+            <p *ngIf="data.item.date" class="info-content">
+                {{data.item.date}}
+            </p>
+
+            <p *ngIf="data.item.medium" class="info-content">
+                <span class="info-field">Medium: </span> {{data.item.medium}}
+            </p>
+
+            <p *ngIf="data.item.description" class="info-content">
+                <span class="info-field">About</span>
+                <br>
+                {{data.item.description}}
+            </p>
+
+        </div>
+        <div class="panel-right">
+
+                <div class="family-group">
+                    <a *ngFor="let author of data.authors" href="User/{{author._id}}">
+                        <div class="author-circlebox">
+                            <img alt="authorAvatar" src="{{author.avatar}}">
+                        </div>
+                    </a>
+                </div>
+                <a href="Collection-Item-Template/{{data.item._id}}">
+                    <div class="member-button edit-work" *ngIf="data.isAuthor">
+                        <div class="member-filter"></div>
+                        <p>Edit item</p>
+                    </div>
+                </a>
+
+            <div class="work-nav">
+                <a href="Collection-Item/{{data.prev}}">
+                    <div class="nav-arrow"> <img src="./assets/img/Arrow.svg" class="inverted-line"> </div>
+                </a>
+                Item {{data.collection.content.indexOf(data.item._id)+1}}/{{data.collection.content.length}}
+                <a href="Collection-Item/{{data.next}}">
+                    <div class="nav-arrow"> <img src="./assets/img/Arrow.svg"> </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <img src="{{data.content[0].imagePath}}" class="work-image" />
+    <p class="work-description">
+        {{data.content[0].description}}
+    </p>
+
+    <div class="more-images">
+        <ng-container *ngFor="let picture of data.content; index as i">
+            <div *ngIf="i > 0" class="other-img">
+                <p class="info-content">
+                    <span class="info-field">
+                        {{picture.name}}
+                    </span>
+                    <br>
+                    {{picture.date}}
+                </p>
+                <div class="other-pic-container">
+                    <img src="{{picture.imagePath}}">
+                </div>
+                <p class="info-content img-footer">
+                    {{picture.description}}
+                </p>
+            </div>
+        </ng-container>
+    </div>
+    <hr>
+    <br>
+    <br>
+    <div class="footpage">
+        <div class="work-nav">
+            <a href="Collection-Item/{{data.prev}}">
+                <div class="nav-arrow"> <img src="./assets/img/Arrow.svg" class="inverted-line"> </div>
+            </a>
+            {{data.collection.content.indexOf(data.item._id)+1}}/{{data.collection.content.length}}
+            <a href="Collection-Item/{{data.next}}">
+                <div class="nav-arrow"> <img src="./assets/img/Arrow.svg"> </div>
+            </a>
+        </div>
+    </div>
+</div>-->

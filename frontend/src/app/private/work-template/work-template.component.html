@@ -1,0 +1,366 @@
+<div class="ewrapper">
+    <div class="path">
+        <div class="path-web ">
+            <div class="img-home"><a href=""><img alt="Home Icon" src="./assets/img/img-home.svg"></a></div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Works"><button>Works</button></a>
+            </div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="New-Work-Template"><button>Add work</button></a>
+            </div>
+        </div>
+    </div>
+    <div class="eheader-container">
+        <div class="eheader">
+            <img src="./assets/img/img-linesdecor.svg">
+            <h1>{{title}}</h1>
+            <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+        </div>
+    </div>
+
+    <div class="template-container">
+
+        <div class="template-list">
+            <div class="template-topbar">
+                <div class="search-bar template-bar">
+                    <form>
+                        <input [(ngModel)]="filter" name="search" type="text" placeholder="Search" class="search-text">
+                    </form>
+                </div>
+                <button class="member-button add-work" (click)="selectedCard()">
+                    <div class="member-filter"></div>
+                    <p>Add Image</p>
+                </button>
+            </div>
+
+            <div class="template-view">
+
+                <div class="templates">
+                    <ng-container *ngFor="let item of work.content | searchfilter: filter; index as i">
+                        <div *ngIf="item.imagePath; else video" class="template-img"
+                            style="background: url('{{item.imagePath}}') no-repeat; background-size: cover;">
+
+                            <div class="gradient">
+                                <img src="./assets/img/gradient.svg" alt="gradient" (click)="selectedCard(i)">
+                            </div>
+                            <label class="flag">
+                                <input type="radio" name="thumbnail" class="flagcheck" [checked]="item.isThumbnail"
+                                    (click)="setThumbnail(null, item.imagePath)"><img class="flagimg"
+                                    src="./assets/img/Flag.svg">
+                            </label>
+                            <p>{{item.name}}</p>
+                        </div>
+                        <ng-template #video>
+                            <div class="template-img"
+                                style="background: url('{{item.thumbnail.url}}') no-repeat center; background-size: 200%;">
+
+                                <div class="gradient">
+                                    <img src="./assets/img/gradient.svg" alt="gradient" (click)="editVideo(i)">
+                                </div>
+                                <label class="flag">
+                                    <input type="radio" name="thumbnail" class="flagcheck" [checked]="item.isThumbnail"
+                                        (click)="setThumbnail(item.thumbnail.duration, item.thumbnail.url)"><img
+                                        class="flagimg" src="./assets/img/Flag.svg">
+                                </label>
+                                <p>{{item.name}}</p>
+                            </div>
+                        </ng-template>
+                    </ng-container>
+                </div>
+
+            </div>
+
+            <div class="slidecontainer">
+                <input type="range" min="0" max="100" value="0" class="slider" (input)="scrollView()">
+            </div>
+            <div class="sdbtn mobile-save">
+                <div class="save-container">
+                    <button class="save-button darkbutton" (click)="saveWork()" value="savework">Publish</button>
+                </div>
+                <div class="save-container">
+                    <a *ngIf="route == 'Work-Template'"><button (click)="confirm('.delWork')">Delete work</button></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="template-details">
+            <form class="request-form template-form" (submit)="saveWork()">
+                <label for="name">Title:*</label>
+                <input [(ngModel)]="work.name" name="name" type="text" id="name" class="input-field"
+                    placeholder="Title of work" /><br>
+
+                <p>Date</p>
+                <div class="date-field">
+                    <input [(ngModel)]="work.date" name="date" type="text" id="date" maxlength="10" autocomplete="off"
+                        placeholder="YYYY-MM-DD" (keydown)="dateCheck($event, 'work')"
+                        (ngModelChange)="dateFormat($event, 'work')" style="transition: 0.3s;"
+                        [style.color]="invalidWorkDate ? 'red' : 'black'" /><br>
+                </div>
+
+                <label for="description">Description:</label>
+                <textarea [(ngModel)]="work.description" name="description" class="template-description"
+                    id="description" placeholder="Description of work"></textarea>
+
+                <label for="socialm">Social media link for videos:<button type="button" (click)="getVideo()"
+                        class="video-button">Add video</button> </label>
+                <input [(ngModel)]="work.socialm" name="socialm" type="url" id="socialm" class="input-field"
+                    placeholder="Youtube video link or ID">
+
+                <label for="medium">Medium:</label>
+                <input [(ngModel)]="work.medium" name="medium" type="text" id="medium" class="input-field"
+                    placeholder="Work medium (ex: Oil on canvas)">
+
+                <label>Who can see your work?*</label>
+                <div class="template-check">
+                    <label for="public" class="check-button">
+                        <input id="public" (click)="publicWork(true)" [checked]="work.public" name="public" type="radio"
+                            id="public" name="selection"><span class="admin-check"></span>
+                        Public<br>
+                        <h6>Anyone with any level of access</h6>
+                    </label>
+                    <label for="private" class="check-button">
+                        <input type="radio" id="private" name="selection" [checked]="!work.public"
+                            (click)="publicWork(false)"><span class="admin-check"></span>
+                        Private
+                        <h6>Only other family members and friends</h6>
+                    </label>
+                </div>
+
+            </form>
+            <div class="add-author-container">
+                <div class="author-list">
+                    <ng-container *ngFor="let user of members">
+                        <a *ngIf="user.isOwner" href="User/{{user._id}}">
+                            <div class="request-user author-avatar">
+                                <img src="{{user.avatar}}" alt="author-avatar">
+                            </div>
+                        </a>
+                    </ng-container>
+                </div>
+
+                <div class="member-button add-author" tabindex="0">
+                    <div class="member-filter"></div>
+                    <p>Add Author</p>
+                    <div class="author-window">
+                        <h3>Add Author</h3>
+                        <hr>
+                        <div class="author-wrapper">
+                            <label *ngFor="let user of members; index as i" class="select-author">
+                                <input type="checkbox" [checked]="user.isOwner" (click)="selectMember(user, i)"><img
+                                    src="{{user.avatar}}" alt="select-author-avatar" class="check-author-avatar">
+                                <span>{{user.name}}</span><img src="./assets/img/check.svg" alt="checkmark"
+                                    class="checkmark">
+                            </label>
+
+                        </div>
+                        <hr>
+                        <button class="save-button lightbutton">Save</button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="sdbtn desktop-save">
+                <div class="save-container">
+                    <button class="save-button darkbutton" (click)="saveWork()" value="savework">Publish</button>
+                </div>
+                <div class="save-container">
+                    <a *ngIf="route == 'Work-Template'"><button (click)="confirm('.delWork')">Delete work</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Pop Up upload picture-->
+<div>
+    <div class="container-all2">
+        <div class="containerp">
+            <div class="closebar">
+                <a (click)="popuppicoff2()"><img alt="exit icon" class="close-button" src="./assets/img/close.svg"></a>
+            </div>
+            <form class="popupformpic" (submit)="onSubmit()">
+                <div class="picturewrap">
+                    <div class="picturepv">
+                        <img [alt]="selectedPic.name" [src]="imageData | safe">
+                    </div>
+                    <div class="btn-center imgbtn">
+                        <label class="btnpopup" for="file">Change Image
+                            <input (change)="fileChangeEvent($event)" type="file" id="file" required>
+                        </label>
+                        <div class="cropbtn" (click)="cropImage()">Crop</div>
+                    </div>
+                </div>
+
+                <label class="inputtext" for="name">Title</label>
+                <input [(ngModel)]="selectedPic.name" name="name" type="text" id="name"
+                    placeholder="Title of this image" required autofocus>
+
+                <label class="inputtext" for="date">Date/Year (if known)</label>
+                <div class="date-field">
+                    <input [(ngModel)]="selectedPic.date" name="date" type="text" id="date" autocomplete="off"
+                        maxlength="10" placeholder="YYYY-MM-DD (ex: 1895 or 2004-05-14)"
+                        (keydown)="dateCheck($event, 'pic')" (ngModelChange)="dateFormat($event, 'pic')"
+                        style="transition: 0.3s;" [style.color]="invalidPicDate ? 'red' : 'black'"><br>
+                </div>
+
+                <label class="inputtext" for="description">Description</label>
+                <textarea [(ngModel)]="selectedPic.description" name="description" id="description"
+                    class="template-description" placeholder="Description for this item" required></textarea>
+
+                <div class="btn-center">
+                    <div class="linegroup">
+                        <img alt="decor" src="./assets/img/img-line.svg">
+                        <button type="submit" value="savepicture" class="btn-darkb">Save</button>
+                        <img alt="decor" src="./assets/img/img-line.svg">
+                    </div>
+                </div>
+                <div class="delete ps">
+                    <a (click)="confirm('.delPhoto')"><span>Delete item</span></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="ban-box banWindow delWork">
+    <div class="ban-confirm ">
+        <h1>Are you sure?</h1>
+        <form (submit)="deleteWork()">
+            <button class="Yes" type="submit">Yes</button>
+            <button class="No" type="button" (click)="close('.delWork')">No</button>
+        </form>
+    </div>
+</div>
+
+<div class="ban-box banWindow delPhoto">
+    <div class="ban-confirm ">
+        <h1>Are you sure?</h1>
+        <form (submit)="deletePhoto()">
+            <button class="Yes" type="submit">Yes</button> <button class="No" type="button"
+                (click)="close('.delPhoto')">No</button>
+        </form>
+    </div>
+</div>
+
+<div class="ban-box banWindow delVideo">
+    <div class="ban-confirm ">
+        <h1>Are you sure?</h1>
+        <form (submit)="deleteVideo()">
+            <button class="Yes" type="submit">Yes</button> <button class="No" type="button"
+                (click)="close('.delVideo')">No</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="ban-box cant-self">
+    <div class="ban-confirm alert-window cantremove">
+        <h1>You can't do that!</h1>
+        <p>You can not remove yourself as the author of this work if you are the only author. Please add a new author or
+            delete the work.
+        </p>
+        <form><button class="No" type="button" (click)="close('.cant-self')">Ok</button>
+        </form>
+    </div>
+</div>
+
+<div class="ban-box no-video">
+    <div class="ban-confirm alert-window cantremove">
+        <h1>Video not found</h1>
+        <p>We couldn't find your video. Please make sure the link is valid and the video is not set to private
+        </p>
+        <form><button class="No" type="button" (click)="close('.no-video')">Ok</button>
+        </form>
+    </div>
+</div>
+
+<div class="ban-box remove-self">
+    <div class="alert-window confirmremove">
+        <h1 style="font-size: 18px;">Are you sure you want to remove youself as owner?</h1>
+        <p style="font-size: 15px">You will not be able to edit this page unless added back by the original owner.</p>
+        <div class="confirmbuttons">
+            <button style="margin: 0;" class="Yes" (click)="removeSelf()">Yes</button>
+            <button style="margin: 0;" class="No" (click)="close('.remove-self')" type="button">No</button>
+        </div>
+    </div>
+</div>
+
+<div class="no-access1-done" (click)="hide('.no-access1-done')">
+    <div class="done-container">
+        <div class="done-container1">
+            <div class="done-container-pic">
+                <img src="./assets/img/done-mark.svg">
+            </div>
+            <h5>Done!</h5>
+        </div>
+    </div>
+</div>
+
+<div class="no-access cropper">
+    <div class="img-cropper">
+        <div class="cropper-container">
+            <image-cropper class="cropped-image" [maintainAspectRatio]="false" format="png"
+                (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()" [imageBase64]="imageData" [containWithinAspectRatio]="true"
+                [autoCrop]="false"></image-cropper>
+        </div>
+        <button class="No" (click)="crop()" type="button">Confirm</button>
+    </div>
+</div>
+
+<div class="ban-box no-crop-image">
+    <div class="ban-confirm ">
+        <h1>You must choose an image first.</h1>
+        <button class="No" type="button" (click)="close('.no-crop-image')">Ok</button>
+    </div>
+</div>
+
+<div class="ban-box cant-empty">
+    <div class="ban-confirm alert-window usurepub">
+        <h1>Be careful!</h1>
+        <p>Setting this as “Public” will allow anyone to see this work. It is strongly recommended to keep
+            all works/collections as “Private” for privacy reasons.</p>
+        <form (submit)="confirmpublic()">
+            <button class="Yes" type="submit">Proceed</button> <button class="No" type="button"
+                (click)="close('.usurepub')">Nevermind</button>
+        </form>
+    </div>
+</div>
+
+<div class="container-all2 videoedit">
+    <div class="video-edit">
+        <div class="videotop"><img (click)="closeWindow('.videoedit')" src="./assets/img/close.svg"></div>
+        <iframe id="player" width="426" height="240" [src]="this.videosrc| safe" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        <form (submit)="addVideo()">
+            <label class="inputtext" for="title">Title<br>
+                <input class="videoinput" [(ngModel)]="selectedVid['name']" name="title" type="text" id="name"
+                    placeholder="Title of this video" required autofocus>
+            </label>
+            <label class="inputtext" for="viddate">Date (if known)<br>
+                <input class="videoinput" [(ngModel)]="selectedVid['date']" name="viddate" type="text" id="name"
+                    autocomplete="off" maxlength="10" placeholder="YYYY-MM-DD" (keydown)="dateCheck($event, 'vid')"
+                    (ngModelChange)="dateFormat($event, 'vid')" style="transition: 0.3s;"
+                    [style.color]="invalidVidDate ? 'red' : 'black'" required autofocus>
+            </label>
+            <label class="inputtext" for="viddesc">Description<br>
+                <textarea class="videotexta" [(ngModel)]="selectedVid['description']" name="viddesc" type="text"
+                    id="name" placeholder="Description of the work" required autofocus></textarea>
+            </label>
+            <button type="submit">Save</button>
+            <a *ngIf="!newVideo" (click)="confirm('.delVideo')">Delete video</a>
+        </form>
+    </div>
+</div>
+<div class="no-access loading">
+    <img src="./assets/img/about-bg1.svg" class="about-bg noaccess">
+    <img src="./assets/img/about-bg2.svg" class="about-bg2 noaccess">
+    <img class="load-gif" src="./assets/img/loading.gif">
+</div>
+
+<canvas class="canvas" width="1500" height="1500"></canvas>

@@ -1,0 +1,213 @@
+<div class="ewrapper">
+    <div class="path">
+        <div class="path-web ">
+            <div class="img-home"><a href=""><img alt="Home Icon" src="./assets/img/img-home.svg"></a></div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Collections"><button>Collections</button></a>
+            </div>
+            <div *ngFor="let level of path" class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="{{level.url}}"><button>{{level.name}}</button></a>
+            </div>
+
+        </div>
+    </div>
+    <div class="eheader-container">
+        <div class="eheader">
+            <img src="./assets/img/img-linesdecor.svg">
+            <h1>Collection Item</h1>
+            <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+        </div>
+    </div>
+
+    <div class="template-container">
+
+        <div class="template-list">
+            <div class="template-topbar">
+                <a href="{{back}}">
+                    <button class="member-button bigback">
+                        <div class="member-filter"></div>
+                    </button>
+                </a>
+                <div class="search-bar template-bar">
+                    <form>
+                        <input [(ngModel)]="filter" name="search" type="text" placeholder="Search" class="search-text">
+                    </form>
+                </div>
+                <button class="member-button add-work" (click)="selectedCard()">
+                    <div class="member-filter"></div>
+                    <p>Add Image</p>
+                </button>
+            </div>
+
+            <div class="template-view">
+                <div class="templates">
+                    <div *ngFor="let picture of item.pictures | searchfilter: filter; index as i" class="template-img"
+                        style="background: url('{{picture.imagePath}}') no-repeat; background-size: cover;">
+
+                        <div class="gradient">
+                            <img src="./assets/img/gradient.svg" alt="gradient" (click)="selectedCard(i)">
+                        </div>
+                        <label class="flag">
+                            <input type="radio" name="thumbnail" class="flagcheck"
+                                [checked]="picture.imagePath == item.thumbnail"
+                                (click)="setThumbnail(picture.imagePath)"><img class="flagimg"
+                                src="./assets/img/Flag.svg">
+                        </label>
+                        <p>{{picture.name}}</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="slidecontainer">
+                <input type="range" min="0" max="100" value="0" class="slider" (input)="scrollView()">
+            </div>
+            <div class="sdbtn mobile-save">
+                <div class="save-container">
+                    <button (click)="saveItem(true)" class="save-button darkbutton">Publish</button>
+                </div>
+                <div class="save-container">
+                    <a (click)="confirm('.deleteIwindow')"><button type="button">Delete item</button></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="template-details">
+            <form class="request-form template-form" (submit)="saveItem(true)">
+                <p>Title:*</p>
+                <input [(ngModel)]="item.name" name="title" type="text" class="input-field"
+                    placeholder="Title of item" /><br>
+
+                <p>Date</p>
+                <input [(ngModel)]="item.date" name="date" type="text" class="input-field" autocomplete="off"
+                    maxlength="10" placeholder="YYYY-MM-DD (ex: 1895 or 2004-05-14)"
+                    (keydown)="dateCheck($event, 'item')" (ngModelChange)="dateFormat($event, 'item')"
+                    style="transition: 0.3s;" [style.color]="invalidItemDate ? 'red' : 'black'" /><br>
+
+                <p>Description:</p><br>
+                <textarea [(ngModel)]="item.description" name="description" class="template-description"
+                    placeholder="Description of item"></textarea>
+                <p>Medium:</p><br>
+                <input [(ngModel)]="item.medium" name="medium" type="text" class="input-field"
+                    placeholder="Item medium (ex: Oil on canvas)">
+
+                <div class="sdbtn desktop-save">
+                    <div class="save-container">
+                        <button class="save-button darkbutton">Publish</button>
+                    </div>
+                    <div class="save-container">
+                        <a (click)="confirm('.deleteIwindow')"><button type="button">Delete item</button></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <div class="container-all2">
+        <div class="containerp">
+            <div class="closebar">
+                <a (click)="popuppicoff2()"><img alt="exit icon" class="close-button" src="./assets/img/close.svg"></a>
+            </div>
+            <form class="popupformpic" (submit)="onSubmit()">
+                <div class="picturewrap">
+                    <div class="picturepv">
+                        <img id="pic" [alt]="selectedPic.name" [src]="imageData | safe" crossorigin="use-credentials">
+                    </div>
+                    <div class="btn-center imgbtn">
+                        <label class="btnpopup" for="file">Change Image
+                            <input (change)="fileChangeEvent($event)" type="file" id="file" required>
+                        </label>
+                        <div class="cropbtn" (click)="cropImage()">Crop</div>
+                    </div>
+
+                </div>
+
+                <label class="inputtext" for="name">Title</label>
+                <input [(ngModel)]="selectedPic.name" name="name" type="text" id="name"
+                    placeholder="Title of this image" required autofocus>
+
+                <label class="inputtext" for="date">Date/Year (if known)</label>
+                <div class="date-field">
+                    <input [(ngModel)]="selectedPic.date" name="date" type="text" id="date"
+                        placeholder="Date/Year of item (ex: 1895 or 05/14/2004)" autocomplete="off" maxlength="10"
+                        placeholder="YYYY-MM-DD (ex: 1895 or 2004-05-14)" (keydown)="dateCheck($event, 'pic')"
+                        (ngModelChange)="dateFormat($event, 'pic')" style="transition: 0.3s;"
+                        [style.color]="invalidPicDate ? 'red' : 'black'"> <br>
+                </div>
+
+                <label class="inputtext" for="description">Description</label>
+                <textarea [(ngModel)]="selectedPic.description" name="description" id="description"
+                    class="template-description" placeholder="Description for this item" required></textarea>
+
+                <div class="btn-center">
+                    <div class="linegroup">
+                        <img alt="decor" src="./assets/img/img-line.svg">
+                        <button type="submit" value="savepicture" class="btn-darkb">Save</button>
+                        <img alt="decor" src="./assets/img/img-line.svg">
+                    </div>
+                </div>
+                <div class="delete ps">
+                    <a (click)="confirm('.deletePwindow')"><span>Delete item</span></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="ban-box banWindow deleteIwindow">
+    <div class="ban-confirm ">
+        <h1>Are you sure?</h1>
+        <form (submit)="deleteItem()">
+            <button class="Yes" type="submit">Yes</button> <button class="No" type="button"
+                (click)="closeWindow('.deleteIwindow')">No</button>
+        </form>
+    </div>
+</div>
+
+<div class="ban-box banWindow deletePwindow">
+    <div class="ban-confirm ">
+        <h1>Are you sure?</h1>
+        <form (submit)="deletePhoto()">
+            <button class="Yes" type="submit">Yes</button> <button class="No" type="button"
+                (click)="closeWindow('.deletePwindow')">No</button>
+        </form>
+    </div>
+</div>
+
+<div class="no-access1-done" (click)="hide('.no-access1-done')">
+    <div class="done-container">
+        <div class="done-container1">
+            <div class="done-container-pic">
+                <img src="./assets/img/done-mark.svg">
+            </div>
+            <h5>Done!</h5>
+        </div>
+    </div>
+</div>
+
+<div class="no-access cropper">
+    <div class="img-cropper">
+        <div class="cropper-container">
+            <image-cropper class="cropped-image" [maintainAspectRatio]="false" format="png"
+                (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()" [imageBase64]="imageData" [containWithinAspectRatio]="true"
+                [autoCrop]="false"></image-cropper>
+        </div>
+        <button class="No" (click)="crop()" type="button">Confirm</button>
+    </div>
+</div>
+
+<div class="ban-box no-crop-image">
+    <div class="ban-confirm ">
+        <h1>You must choose an image first.</h1>
+        <button class="No" type="button" (click)="closeWindow('.no-crop-image')">Ok</button>
+    </div>
+</div>
+
+<canvas class="canvas" width="1500" height="1500"></canvas>

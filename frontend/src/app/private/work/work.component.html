@@ -1,0 +1,352 @@
+<div *ngIf="isLoaded" class="collection-container">
+    <div class="wrapper-path-c">
+
+        <div class="path-dark">
+            <a href="" class="pic-home"><img alt="Home Icon" src="./assets/img/img-home.svg"></a>
+            <div class="pathnext-dark">
+                <div class="img-arrow-dark">
+                  <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+                </div>
+                <a href="Works"><button>Works</button></a>
+            </div>
+            <div class="pathnext-dark">
+                <div class="img-arrow-dark">
+                  <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+                </div>
+                <a href="Work/{{work['_id']}}"><button>{{work['name']}}</button></a>
+            </div>
+        </div>
+
+        <div class="collection-page-container no-mobile">
+
+            <div class="collection-page-container2 no-mobile">
+                <div class="collection-page-container3 no-mobile">
+                    <div class="collection-page-title no-mobile">
+                        <h1>{{work['name']}}</h1>
+                        <p>{{work['date']}}</p>
+                    </div>
+                    <div class="collection-page-users no-mobile"> 
+                        <a *ngFor="let author of work['authors']" href="User/{{author._id}}">
+                            <div class="author-circlebox">
+                                <img alt="authorAvatar" src="{{author.avatar}}">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+               <div class="collection-page-container4 no-mobile"> 
+                <div class="collection-page-container5 no-mobile">
+                    <div class="collection-page-sub2 no-mobile">
+                        <h2>Medium: </h2>
+                        <p> {{work['medium']}}</p>
+                    </div>
+                    <div class="collection-page-buttons no-mobile">
+                        <div class="collectionbtns no-mobile">
+                            <a href="Work-Template/{{work['_id']}}">
+                                <div class="member-button edit-work" *ngIf="info['canEdit']">
+                                    <div class="member-filter"></div>
+                                    <p>Edit Work</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!--here folder button-->
+                    </div>
+                </div>
+                <div class="collection-page-container7 no-mobile">
+                    <div class="collection-page-sub no-mobile">
+                        <h2>About</h2>
+                        <p>{{work['description']}}</p>
+                    </div>
+                    <div class="collection-page-btn no-mobile">
+                        <a href="Work/{{info['prev']}}"><img src="./assets/img/Arrow.svg" class="inverted-line"></a>
+                        <p>Work {{info['position']}}/{{info['pages']}}</p>
+                        <a href="Work/{{info['next']}}"><img src="./assets/img/Arrow.svg"></a>
+                    </div>
+                    <hr>
+                </div>
+
+               </div> 
+            </div>
+            <div class="collection-page-gallery2 no-mobile">
+                <div class="collection-page-data no-mobile">
+                    <div class="collection-page-data2 no-mobile">
+                        <div class="collection-page-pic2 no-mobile">
+                            <img *ngIf="work['content'][0].imagePath; else bigVideo" src="{{work['content'][0].imagePath}}"
+                            class="work-image" />
+                        <ng-template #bigVideo>
+                            <div class="bigPlayer">
+                                <iframe id="player" width="1280" height="720" [src]="work['content'][0].videoID | safe"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                        </ng-template>
+                        </div>
+                        <p>{{work['content'][0].description}}</p>
+                    </div>
+                    <div class="collection-page-data3 no-mobile">
+                        <ng-container *ngFor="let item of work['content']; index as i">
+                            <div *ngIf="i > 0" class="collection-page-data4">
+                                <div class="collection-page-title2">
+                                    <h4>{{item.name}}</h4>
+                                    <p>{{item.date}}</p>
+                                </div>
+                                <div class="collection-page-data5 no-mobile">
+                                    <div *ngIf="item.imagePath; else video" class="collection-page-pic3">
+                                        <img src="{{item.imagePath}}">
+                                    </div>
+                                    <ng-template #video>
+                                        <iframe id="player" width="616" height="346" [src]="item.videoID | safe"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </ng-template>
+                                    <p>{{item.description}}</p>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="collection-page-footpage no-mobile">
+                    <hr>
+                    <div class="collection-page-btn no-mobile">
+                        <a href="Work/{{info['prev']}}"><img src="./assets/img/Arrow.svg" class="inverted-line"></a>
+                        <p>Work {{info['position']}}/{{info['pages']}}</p>
+                        <a href="Work/{{info['next']}}"><img src="./assets/img/Arrow.svg"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Mobile devices-->
+        <div class="collection-page-containerm">
+            <div class="collection-page-container2m">
+                <div class="v2">
+                    <div class="collection-page-usersm"> 
+                        <a *ngFor="let author of work['authors']" href="User/{{author._id}}">
+                            <div class="author-circlebox">
+                                <img alt="authorAvatar" src="{{author.avatar}}">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="v3">
+                        <div class="collectionbtns">
+                            <a href="Work-Template/{{work['_id']}}">
+                                <div class="member-button edit-work" *ngIf="info['canEdit']">
+                                    <div class="member-filter"></div>
+                                    <p>Edit Work</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!--here folder button-->
+                    </div>
+                </div>
+
+               <div class="collection-page-container4m"> 
+                    <div class="collection-page-container5m">
+                        <div class="collection-page-titlem">
+                            <h1>{{work['name']}}</h1>
+                            <p>{{work['date']}}</p>
+                        </div>
+                        <div class="collection-page-sub2m">
+                            <h2>Medium: </h2>
+                            <p> {{work['medium']}}</p>
+                        </div>
+                        <div class="collection-page-subm">
+                            <h2>About</h2>
+                            <p>{{work['description']}}</p>
+                            <button class="read-btn">Read more</button>
+                        </div> 
+                    </div>
+                    <div class="collection-page-container6m">
+                        <div class="collection-page-btnm">
+                            <a href="Work/{{info['prev']}}"><img src="./assets/img/Arrow.svg" class="inverted-line"></a>
+                            <p>Work {{info['position']}}/{{info['pages']}}</p>
+                            <a href="Work/{{info['next']}}"><img src="./assets/img/Arrow.svg"></a>
+                        </div>
+                        <hr>
+                    </div>
+               </div> 
+            </div>
+            <div class="collection-page-gallerym">
+                <div class="collection-page-data">
+                    <div class="collection-page-data2">
+                        <div class="collection-page-pic2">
+                            <img *ngIf="work['content'][0].imagePath; else bigVideo" src="{{work['content'][0].imagePath}}"
+                            class="work-image" />
+                        <ng-template #bigVideo>
+                            <div class="bigPlayer">
+                                <iframe id="player" width="1280" height="720" [src]="work['content'][0].videoID | safe"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                        </ng-template>
+                        </div>
+                        <p>{{work['content'][0].description}}</p>
+                        <button class="read-btn">Read more</button>
+                    </div>
+                    
+                    <div class="collection-page-data3">
+                        <ng-container *ngFor="let item of work['content']; index as i">
+                            <div *ngIf="i > 0" class="collection-page-data4">
+                                <div class="collection-page-title2">
+                                    <h4>{{item.name}}</h4>
+                                    <p>{{item.date}}</p>
+                                </div>
+                                <div class="collection-page-data5">
+                                    <div *ngIf="item.imagePath; else video" class="collection-page-pic3">
+                                        <img src="{{item.imagePath}}">
+                                    </div>
+                                    <ng-template #video>
+                                        <iframe id="player" width="616" height="346" [src]="item.videoID | safe"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </ng-template>
+                                    <p>{{item.description}}</p>
+                                    <button class="read-btn">Read more</button>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+
+                </div>
+                <div class="collection-page-footpage">
+                    <hr>
+                    <div class="collection-page-btn">
+                        <a href="Work/{{info['prev']}}"><img src="./assets/img/Arrow.svg" class="inverted-line"></a>
+                        <p>Work {{info['position']}}/{{info['pages']}}</p>
+                        <a href="Work/{{info['next']}}"><img src="./assets/img/Arrow.svg"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--<div *ngIf="isLoaded" class="ewrapper">
+
+    <div class="path fixed">
+        <div class="path-web">
+
+            <a href="">
+                <div class="img-home"><img alt="Home Icon" src="./assets/img/img-home.svg"></div>
+            </a>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Works"><button>Works</button></a>
+            </div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Work/{{work['_id']}}"><button>{{work['name']}}</button></a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="work-panel">
+        <div class="panel-left">
+
+            <h2 class="work-name">{{work['name']}}</h2>
+            <p class="info-content">
+                {{work['date']}}
+            </p>
+
+            <p class="info-content">
+                <span class="info-field">Medium: </span> {{work['medium']}}
+            </p>
+
+            <p class="info-content">
+                <span class="info-field">About</span>
+                <br>
+                {{work['description']}}
+            </p>
+
+        </div>
+        <div class="panel-right">
+
+            <div class="family-group">
+                <a *ngFor="let author of work['authors']" href="User/{{author._id}}">
+                    <div class="author-circlebox">
+                        <img alt="authorAvatar" src="{{author.avatar}}">
+                    </div>
+                </a>
+            </div>
+            <a href="Work-Template/{{work['_id']}}">
+                <div class="member-button edit-work" *ngIf="info['canEdit']">
+                    <div class="member-filter"></div>
+                    <p>Edit item</p>
+                </div>
+            </a>
+
+            <div class="work-nav">
+                <a href="Work/{{info['prev']}}">
+                    <div class="nav-arrow"> <img src="./assets/img/Arrow.svg" class="inverted-line"> </div>
+                </a>
+                Work {{info['position']}}/{{info['pages']}}
+                <a href="Work/{{info['next']}}">
+                    <div class="nav-arrow"> <img src="./assets/img/Arrow.svg"> </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <img *ngIf="work['content'][0].imagePath; else bigVideo" src="{{work['content'][0].imagePath}}"
+        class="work-image" />
+    <ng-template #bigVideo>
+        <div class="bigPlayer">
+            <iframe id="player" width="1280" height="720" [src]="work['content'][0].videoID | safe"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+    </ng-template>
+    <p class="work-description">
+        {{work['content'][0].description}}
+    </p>
+
+    <div class="more-images">
+        <ng-container *ngFor="let item of work['content']; index as i">
+            <div *ngIf="i > 0" class="other-img">
+                <p class="info-content">
+                    <span class="info-field">
+                        {{item.name}}
+                    </span>
+                    <br>
+                    {{item.date}}
+                </p>
+                <div *ngIf="item.imagePath; else video" class="other-pic-container">
+                    <img class="other-image" src="{{item.imagePath}}">
+                </div>
+                <ng-template #video>
+                    <iframe id="player" width="616" height="346" [src]="item.videoID | safe"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </ng-template>
+                <p class="info-content img-footer">
+                    {{item.description}}
+                </p>
+            </div>
+        </ng-container>
+    </div>
+    <hr>
+    <br>
+    <br>
+    <div class="footpage">
+        <div class="work-nav">
+            <a href="Work/{{info['prev']}}">
+                <div class="nav-arrow"> <img src="./assets/img/Arrow.svg" class="inverted-line"> </div>
+            </a>
+            Work {{info['position']}}/{{info['pages']}}
+            <a href="Work/{{info['next']}}">
+                <div class="nav-arrow"> <img src="./assets/img/Arrow.svg"> </div>
+            </a>
+        </div>
+    </div>
+</div>-->
+

@@ -1,0 +1,62 @@
+<div class="page-header">
+  <div class="bg-ph">
+  </div>
+
+  <div class="boxlogin">
+    <div class="boxlogininside">
+      <div class="eheader-container">
+        <div class="eheader">
+          <div>
+            <h3>Login to your account</h3>
+          </div>
+        </div>
+      </div>
+      <form class="login-container" (submit)="logIn()">
+
+        <label for="email"></label>
+        <input type="email" [(ngModel)]="user.email" name="email" placeholder="E-mail" autocomplete="username" required>
+        <span class="invalid-field" id="iname">email doesn't exist</span>
+
+        <label for="password"></label>
+        <div class="passField">
+          <input type="password" id="password" [(ngModel)]="user.password" name="password" placeholder="Password"
+            autocomplete="current-password" required>
+          <div class="show-password loginPage" (click)="togglePassword()">
+            <img id="pass-icon" src="./assets/img/visiblePass-false.svg">
+          </div>
+        </div>
+        <span class="invalid-field" id="ipass">Wrong password</span>
+
+        <p>or</p>
+
+        <div class="btn1">
+          <a href="Google-Login" class="btn-google"><button type="button"><img alt="google logo"
+                src="./assets/img/img-google.svg">Log in with Google</button></a>
+        </div>
+
+        <div class="btn1">
+          <button type="submit" value="login" class="btn-darkb">Login to profile</button>
+          <div class="fp delete">
+            <a href="Forgot-Password"><span>Forgot Password?</span></a>
+          </div>
+          <div class="fp delete signin">
+            <a href="signup"><span>Don't have an account?</span></a>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="no-access">
+  <img src="./assets/img/about-bg1.svg" class="about-bg noaccess">
+  <img src="./assets/img/about-bg2.svg" class="about-bg2 noaccess">
+
+  <div class="appeal-window">
+    <img src="./assets/img/close.svg" class="close-button" (click)="closeWindow()" />
+    <h1>Access Denied</h1>
+    <p>Your account was banned from the website. For more<br>information please contact us.</p>
+    <a href="Contact-Us"><input type="submit" value="Send message" class="send-button darkbutton" /></a>
+  </div>
+</div>

@@ -1,0 +1,621 @@
+<div class="login-container1">
+    <div *ngIf="isLoaded" class="settings-banner">
+        <img src="{{profile.banner}}"/>
+    </div>
+
+    <div *ngIf="isLoaded" class="wrapper-path-c"> 
+
+        <div class="path-white">
+            <a href="" class="pic-home"><img alt="Home Icon" src="./assets/img/img-home.svg"></a>
+            <div class="pathnext-white">
+                <div class="img-arrow-white">
+                  <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+                </div>
+                <a href="Family-Member"><button>Family members</button></a>
+            </div>
+            <div class="pathnext-white">
+              <div class="img-arrow-white">
+                <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+              </div>
+              <a href="Profile"><button>{{profile.name}} {{profile.lastName}}</button></a>
+            </div>
+        </div>
+        <div class="profile-container">
+            <div class="profile-container1">
+                <div class="profile-container2">
+                    <div class="profile-pic-c">
+                        <a *ngIf="profile.isOwnProfile" href="Personal-Settings"><img
+                            src="./assets/img/Edit-profile.svg" class="edit-profile" />
+                        </a>
+                        <div *ngIf="profile.socialMedia" class="social-buttons">
+                                <div *ngFor="let site of profile.socialMedia" class="social-anchor" tabindex="0">
+                                    <img class="small-button" src="./assets/img/social-media/black/{{site.site}}.svg" />
+                                    <div class="account-box">
+                                        <h5>Select Profile</h5>
+            
+                                        <div class="account-list">
+            
+                                            <div *ngFor="let account of site.accounts" class="social-account">
+                                                <a *ngIf="account.link" href="{{account.link}}" target="_blank">
+                                                    <img src="./assets/img/social-media/{{site.site}}.svg" />
+                                                    <span>{{account.user}}</span>
+                                                </a>
+            
+                                                <div *ngIf="!account.link">
+                                                    <img src="./assets/img/social-media/{{site.site}}.svg" />
+                                                    <span>{{account.user}}</span>
+                                                </div>
+                                            </div>
+            
+                                        </div>
+            
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="google-pic">
+                            <img alt="User avatar" [src]="profile.avatar">
+                        </div>
+                    </div>
+                    <div class="profile-container3">
+                        <div class="profile-social-m">
+                            <a *ngIf="profile.isOwnProfile" href="Personal-Settings" class="profile-ed"><img
+                                src="./assets/img/Edit-profile.svg" class="edit-profile" />
+                            </a>
+                            <div *ngIf="profile.socialMedia" class="social-buttons">
+                                    <div *ngFor="let site of profile.socialMedia" class="social-anchor" tabindex="0">
+                                        <img class="small-button" src="./assets/img/social-media/black/{{site.site}}.svg" />
+                                        <div class="account-box">
+                                            <h5>Select Profile</h5>
+                
+                                            <div class="account-list">
+                
+                                                <div *ngFor="let account of site.accounts" class="social-account">
+                                                    <a *ngIf="account.link" href="{{account.link}}" target="_blank">
+                                                        <img src="./assets/img/social-media/{{site.site}}.svg" />
+                                                        <span>{{account.user}}</span>
+                                                    </a>
+                
+                                                    <div *ngIf="!account.link">
+                                                        <img src="./assets/img/social-media/{{site.site}}.svg" />
+                                                        <span>{{account.user}}</span>
+                                                    </div>
+                                                </div>
+                
+                                            </div>
+                
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="google-pic">
+                                <img alt="User avatar" [src]="profile.avatar">
+                            </div>
+                            <div class="profile-buttons">
+                                <a *ngIf="profile.isOwnProfile" href="New-Work-Template">
+                                    <div class="member-button add-work">
+                                        <div class="member-filter"></div>
+                                        <p>Add Work</p>
+                                    </div>
+                                </a>
+                                <div *ngIf="profile.isOwnProfile" class="member-button add-collection">
+                                    <a href="New-Collection-Template" style="text-decoration: none;">
+                                        <div class="member-filter"></div>
+                                        <p>Add Collection</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-information">
+                            <h1>{{profile.name}} {{profile.lastName}}</h1>
+                            <h2>
+                                {{profile.category}}<ng-container *ngIf="!profile.category">{{profile.role}}</ng-container>
+                
+                                <img *ngIf="profile.isOwnProfile" src="./assets/img/Edit.svg" style="opacity: 0.55;"
+                                    (click)="edit('category')">
+                            </h2>
+                            <hr>
+                            <p>
+                                {{profile.description}}
+                                <ng-container *ngIf="profile.isOwnProfile && !profile.description">No description
+                                </ng-container>
+                                <img *ngIf="profile.isOwnProfile" src="./assets/img/Edit.svg" style="opacity: 0.55;"
+                                    (click)="edit('description')">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-container-c">
+                <div class="contact-header">
+                    <div class="vector-lines2">
+                        <img src="./assets/img/img-linesdecor.svg">
+                    </div>
+                    <h3>Collections</h3>
+                    <div class="vector-lines2">
+                        <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+                    </div>
+                </div>
+                <div class="profile-container-c2">
+
+                    <ng-container *ngFor="let collection of profile.collections">
+                        <div class="boxc" *ngIf="!collection.locked; else locked">
+                            <div class="boxcinner">
+                                <button class="collect-hover"
+                                    (click)="requestExists('Collection', collection._id, {name: collection.name, type: 'collection', thumbnail: collection.thumbnails[0].path}, false)"></button>
+            
+                                <div class="bigcollection">
+            
+                                    <div class="bigcollection-members ">
+                                        <div class="not-so smallcircle" *ngFor="let author of collection.authors; index as i"><img
+                                                alt="member 2" src="{{author.avatar}}"><span>{{author.name}}</span></div>
+                                    </div>
+                                    <h3>{{collection.name}}</h3>
+                                    <p>{{collection.content.length}} items</p>
+                                </div>
+                                <div class="boxgroup">
+                                    <div *ngFor="let thumbnail of collection.thumbnails">
+                                        <div class="boxpicture"
+                                            [ngClass]="{'folder': thumbnail.type == 'folder'}">
+                                            <img *ngIf="thumbnail.type == 'item'" alt="Collection 1" src="{{thumbnail['path']}}">
+                                            <img *ngIf="thumbnail.type == 'folder'" alt="Collection 1" src="./assets/img/Folder.png"
+                                                style="background: url('{{thumbnail.path}}') no-repeat; background-color: lightgray;
+                                            background-size: cover;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="boxcirclegroup">
+                                    <ng-container *ngFor="let author of collection.authors; index as i">
+                                        <div *ngIf="i < 6" class="smallcircle"><img alt="member 3" src="{{author.avatar}}"></div>
+                                    </ng-container>
+                                    <span *ngIf="collection.authors.length > 6"> +{{collection.authors.length - 6}} </span>
+                                </div>
+                            </div>
+                            <p>{{collection.name}}</p>
+                        </div>
+            
+                        <ng-template #locked>
+                            <div class="boxc">
+                                <div class="boxcinner">
+                                    <button class="collect-hover"
+                                        (click)="requestExists('Collection', collection._id, {name: collection.name, type: 'collection', thumbnail: collection.thumbnails[0].path}, true)"></button>
+                                    <div class="boxgroup">
+                                        <div *ngFor="let thumbnail of collection.thumbnails">
+                                            <div *ngIf="thumbnail['path']" class="boxpicture locked"
+                                                [ngClass]="{'folder': thumbnail['path'].includes('Folder.svg')}">
+                                                <img alt="lock" class="collection-lock" src="./assets/img/locked.svg">
+                                                <img alt="Collection 1" class="blurred-image" src="{{thumbnail['path']}}">
+                                            </div>
+                                        </div>
+            
+                                    </div>
+                                    <div class="boxcirclegroup">
+                                        <ng-container *ngFor="let author of collection.authors; index as i">
+                                            <div *ngIf="i < 6" class="smallcircle"
+                                                style="background-color: black; background-size: 20%;"></div>
+                                        </ng-container>
+                                        <span *ngIf="collection.authors.length > 6"> +{{collection.authors.length - 6}} </span>
+                                    </div>
+                                </div>
+                                <img class="name-lock" src="./assets/img/locked-name.svg">
+                                <p>_ _ _ _ _ _ _ _ _</p>
+                            </div>
+                        </ng-template>
+            
+                    </ng-container>
+
+                </div>
+            </div>
+            <div class="profile-container-w">
+                <div class="contact-header">
+                    <div class="vector-lines2">
+                        <img src="./assets/img/img-linesdecor.svg">
+                    </div>
+                    <h3>Works</h3>
+                    <div class="vector-lines2">
+                        <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+                    </div>
+                </div>
+                <div class="profile-container-c2">
+
+                    <div class="work-list">
+                        <ng-container *ngFor="let work of works">
+            
+                            <a *ngIf="!work.locked; else lockedWork"
+                                (click)="requestExists('Work', work._id, {name: work.name, type: 'work', thumbnail: work.thumbnail}, false)">
+                                <div class="work-box visible-work"
+                                    style="background: url('{{work.thumbnail.url}}') no-repeat center; background-size: 150%;">
+            
+                                    <small *ngIf="work.thumbnail.duration" class="video-duration">{{work.thumbnail.duration}}</small>
+                                    <img *ngIf="work.thumbnail.duration" src="./assets/img/work-button.svg" class="play-button" />
+                                    <div class="work-info">
+                                        <div class=work-members>
+                                            <ng-container *ngFor="let author of work.authors; index as i">
+                                                <div *ngIf="i < 5" class="smallcircle workcircle"><img alt="member 3"
+                                                        src="{{author.avatar}}">
+                                                </div>
+                                            </ng-container>
+                                            <div class="author-overflow" *ngIf="work.authors.length > 5">
+                                                +{{work.authors.length - 5}}
+                                            </div>
+                                        </div>
+                                        <span>{{work.name}}</span>
+                                    </div>
+                                    <div class="gradient"><img src="./assets/img/gradient.svg"></div>
+                                    <div class="more-info">
+                                        <div class="bigcollection-members ">
+                                            <ng-container *ngFor="let author of work.authors; index as i">
+                                                <div *ngIf="i < 5" class="not-so smallcircle"><img alt="member 3"
+                                                        src="{{author.avatar}}"><span>{{author.name}}</span></div>
+                                            </ng-container>
+                                            <div *ngIf="work.authors.length > 5" class="more-authors">+{{work.authors.length - 5}}
+                                            </div>
+                                        </div>
+                                        <h3>{{work.name}}</h3>
+                                        <p>{{work.medium}}</p>
+            
+                                    </div>
+                                </div>
+                            </a>
+                            <ng-template #lockedWork>
+                                <a class="blurred-work"
+                                    (click)="requestExists('Work', work._id, {name: work.name, type: 'work', thumbnail: work.thumbnail}, true)">
+                                    <div class="work-box blurred-work">
+                                        <img class="work-lock" src="./assets/img/locked.svg"
+                                            style="position: absolute; width: 2rem;">
+                                        <img src="{{work.thumbnail}}" style="filter: blur(20px);">
+            
+                                        <div class="work-info">
+                                            <div class=work-members>
+                                                <ng-container *ngFor="let author of work.authors; index as i">
+                                                    <div *ngIf="i < 5" class="smallcircle workcircle"
+                                                        style="background-color: black;">
+                                                    </div>
+                                                </ng-container>
+                                                <div class="author-overflow" *ngIf="work.authors.length > 5">
+                                                    +{{work.authors.length - 5}}
+                                                </div>
+                                            </div>
+                                            <span>------------------</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </ng-template>
+            
+                        </ng-container>
+            
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<div *ngIf="isLoaded" class="member-background"
+    style="background: url('{{profile.banner}}') no-repeat top center; background-size: cover;">
+</div>
+
+<div *ngIf="isLoaded" class="ewrapper">
+
+    <div class="path path3 white">
+        <div class="path-web">
+            <div class="img-home"><a href=""><img alt="Home Icon" src="./assets/img/img-home.svg"></a></div>
+            <div class="pathnext">
+                <div class="patharrows">
+                    <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                    <a href="Family-member"><button>Family members</button></a>
+                </div>
+                <div class="patharrows">
+                    <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                    <a href="Profile"><button>{{profile.name}} {{profile.lastName}}</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="member-profile">
+        <div class="library-circlebox member-avatar">
+            <img alt="User avatar" [src]="profile.avatar">
+        </div>
+        <div class="member-info">
+            <h5 class="member-name">
+                {{profile.name}} {{profile.lastName}}
+            </h5>
+            <h6 class="member-category">
+                {{profile.category}}<ng-container *ngIf="!profile.category">{{profile.role}}</ng-container>
+
+                <img *ngIf="profile.isOwnProfile" src="./assets/img/Edit.svg" style="opacity: 0.55;"
+                    (click)="edit('category')">
+            </h6>
+            <hr>
+            <p class="member-description">
+                {{profile.description}}
+                <ng-container *ngIf="profile.isOwnProfile && !profile.description">No description
+                </ng-container>
+                <img *ngIf="profile.isOwnProfile" src="./assets/img/Edit.svg" style="opacity: 0.55;"
+                    (click)="edit('description')">
+            </p>
+        </div>
+
+        <div class="member-buttons">
+            <a *ngIf="profile.isOwnProfile" href="New-Work-Template">
+                <div class="member-button add-work">
+                    <div class="member-filter"></div>
+                    <p>Add Work</p>
+                </div>
+            </a>
+
+            <div *ngIf="profile.isOwnProfile" class="member-button add-collection">
+                <a href="New-Collection-Template" style="text-decoration: none;">
+                    <div class="member-filter"></div>
+                    <p>Add Collection</p>
+                </a>
+            </div>
+            <div class="member-media">
+
+                <div *ngIf="profile.socialMedia" class="social-buttons">
+                    <div *ngFor="let site of profile.socialMedia" class="social-anchor" tabindex="0">
+                        <img class="small-button" src="./assets/img/social-media/black/{{site.site}}.svg" />
+                        <div class="account-box">
+                            <h5>Select Profile</h5>
+
+                            <div class="account-list">
+
+                                <div *ngFor="let account of site.accounts" class="social-account">
+                                    <a *ngIf="account.link" href="{{account.link}}" target="_blank">
+                                        <img src="./assets/img/social-media/{{site.site}}.svg" />
+                                        <span>{{account.user}}</span>
+                                    </a>
+
+                                    <div *ngIf="!account.link">
+                                        <img src="./assets/img/social-media/{{site.site}}.svg" />
+                                        <span>{{account.user}}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a *ngIf="profile.isOwnProfile" href="Personal-Settings"><img
+                    src="./assets/img/Edit-profile.svg" class="edit-profile" /></a>
+
+        </div>
+    </div>
+
+    <div class=eheader-container>
+        <div class="eheader">
+            <div>
+                <img src="./assets/img/img-linesdecor.svg">
+                <h1>Collections</h1>
+                <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+            </div>
+        </div>
+    </div>
+
+    <div class="member-collections">
+
+        <ng-container *ngFor="let collection of profile.collections">
+            <div class="boxc" *ngIf="!collection.locked; else locked">
+                <div class="boxcinner">
+                    <button class="collect-hover"
+                        (click)="requestExists('Collection', collection._id, {name: collection.name, type: 'collection', thumbnail: collection.thumbnails[0].path}, false)"></button>
+
+                    <div class="bigcollection">
+
+                        <div class="bigcollection-members ">
+                            <div class="not-so smallcircle" *ngFor="let author of collection.authors; index as i"><img
+                                    alt="member 2" src="{{author.avatar}}"><span>{{author.name}}</span></div>
+                        </div>
+                        <h3>{{collection.name}}</h3>
+                        <p>{{collection.content.length}} items</p>
+                    </div>
+                    <div class="boxgroup">
+                        <div *ngFor="let thumbnail of collection.thumbnails">
+                            <div class="boxpicture"
+                                [ngClass]="{'folder': thumbnail.type == 'folder'}">
+                                <img *ngIf="thumbnail.type == 'item'" alt="Collection 1" src="{{thumbnail['path']}}">
+                                <img *ngIf="thumbnail.type == 'folder'" alt="Collection 1" src="./assets/img/Folder.png"
+                                    style="background: url('{{thumbnail.path}}') no-repeat; background-color: lightgray;
+                                background-size: cover;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="boxcirclegroup">
+                        <ng-container *ngFor="let author of collection.authors; index as i">
+                            <div *ngIf="i < 6" class="smallcircle"><img alt="member 3" src="{{author.avatar}}"></div>
+                        </ng-container>
+                        <span *ngIf="collection.authors.length > 6"> +{{collection.authors.length - 6}} </span>
+                    </div>
+                </div>
+                <p>{{collection.name}}</p>
+            </div>
+
+            <ng-template #locked>
+                <div class="boxc">
+                    <div class="boxcinner">
+                        <button class="collect-hover"
+                            (click)="requestExists('Collection', collection._id, {name: collection.name, type: 'collection', thumbnail: collection.thumbnails[0].path}, true)"></button>
+                        <div class="boxgroup">
+                            <div *ngFor="let thumbnail of collection.thumbnails">
+                                <div *ngIf="thumbnail['path']" class="boxpicture locked"
+                                    [ngClass]="{'folder': thumbnail['path'].includes('Folder.svg')}">
+                                    <img alt="lock" class="collection-lock" src="./assets/img/locked.svg">
+                                    <img alt="Collection 1" class="blurred-image" src="{{thumbnail['path']}}">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="boxcirclegroup">
+                            <ng-container *ngFor="let author of collection.authors; index as i">
+                                <div *ngIf="i < 6" class="smallcircle"
+                                    style="background-color: black; background-size: 20%;"></div>
+                            </ng-container>
+                            <span *ngIf="collection.authors.length > 6"> +{{collection.authors.length - 6}} </span>
+                        </div>
+                    </div>
+                    <img class="name-lock" src="./assets/img/locked-name.svg">
+                    <p>_ _ _ _ _ _ _ _ _</p>
+                </div>
+            </ng-template>
+
+        </ng-container>
+
+        <div class=eheader-container>
+            <div class="eheader">
+                <div>
+                    <img src="./assets/img/img-linesdecor.svg">
+                    <h1>Works</h1>
+                    <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="work-list">
+
+
+            <ng-container *ngFor="let work of works">
+
+                <a *ngIf="!work.locked; else lockedWork"
+                    (click)="requestExists('Work', work._id, {name: work.name, type: 'work', thumbnail: work.thumbnail}, false)">
+                    <div class="work-box visible-work"
+                        style="background: url('{{work.thumbnail.url}}') no-repeat center; background-size: 150%;">
+
+                        <small *ngIf="work.thumbnail.duration" class="video-duration">{{work.thumbnail.duration}}</small>
+                        <img *ngIf="work.thumbnail.duration" src="./assets/img/work-button.svg" class="play-button" />
+                        <div class="work-info">
+                            <div class=work-members>
+                                <ng-container *ngFor="let author of work.authors; index as i">
+                                    <div *ngIf="i < 5" class="smallcircle workcircle"><img alt="member 3"
+                                            src="{{author.avatar}}">
+                                    </div>
+                                </ng-container>
+                                <div class="author-overflow" *ngIf="work.authors.length > 5">
+                                    +{{work.authors.length - 5}}
+                                </div>
+                            </div>
+                            <span>{{work.name}}</span>
+                        </div>
+                        <div class="gradient"><img src="./assets/img/gradient.svg"></div>
+                        <div class="more-info">
+                            <div class="bigcollection-members ">
+                                <ng-container *ngFor="let author of work.authors; index as i">
+                                    <div *ngIf="i < 5" class="not-so smallcircle"><img alt="member 3"
+                                            src="{{author.avatar}}"><span>{{author.name}}</span></div>
+                                </ng-container>
+                                <div *ngIf="work.authors.length > 5" class="more-authors">+{{work.authors.length - 5}}
+                                </div>
+                            </div>
+                            <h3>{{work.name}}</h3>
+                            <p>{{work.medium}}</p>
+
+                        </div>
+                    </div>
+                </a>
+                <ng-template #lockedWork>
+                    <a class="blurred-work"
+                        (click)="requestExists('Work', work._id, {name: work.name, type: 'work', thumbnail: work.thumbnail}, true)">
+                        <div class="work-box blurred-work">
+                            <img class="work-lock" src="./assets/img/locked.svg"
+                                style="position: absolute; width: 2rem;">
+                            <img src="{{work.thumbnail}}" style="filter: blur(20px);">
+
+                            <div class="work-info">
+                                <div class=work-members>
+                                    <ng-container *ngFor="let author of work.authors; index as i">
+                                        <div *ngIf="i < 5" class="smallcircle workcircle"
+                                            style="background-color: black;">
+                                        </div>
+                                    </ng-container>
+                                    <div class="author-overflow" *ngIf="work.authors.length > 5">
+                                        +{{work.authors.length - 5}}
+                                    </div>
+                                </div>
+                                <span>------------------</span>
+                            </div>
+                        </div>
+                    </a>
+                </ng-template>
+
+            </ng-container>
+
+
+        </div>
+    </div>-->
+
+
+
+    <div class="no-access">
+        <img src="./assets/img/about-bg1.svg" class="about-bg noaccess">
+        <img src="./assets/img/about-bg2.svg" class="about-bg2 noaccess">
+
+        <div class="no-access-box">
+            <img src="./assets/img/close.svg" class="close-button" (click)="closeWindow()" />
+            <img src="./assets/img/Lock.svg" class="lock">
+            <p>Oh no! it seems you are trying to access a "private" item.<br>Please request permission below.</p>
+            <img src="./assets/img/Key.svg" class="key" (click)="requestAccess()">
+        </div>
+
+        <div class="request-access">
+            <img src="./assets/img/close.svg" class="close-button" (click)="closeWindow()" />
+            <h2>Request Access</h2>
+            <form class="request-form" (submit)="sendRequest()" name="request-form">
+
+                <p>Organisation:</p><br>
+                <input [(ngModel)]="requestForm.organisation" name="Organisation" type="text" class="input-field" /><br>
+
+                <p>Purpose for gaining access:*</p><br>
+                <input [(ngModel)]="requestForm.purpose" name="purpose" class="otherinfo" maxlength="30" />
+
+                <p>Any other info/comments</p><br>
+                <textarea [(ngModel)]="requestForm.description" name="description" class="purpose"
+                    required="true"> </textarea>
+
+
+                <button type="submit" class="submit-request">
+                    <img src="./assets/img/sendKey.svg" class="request-button" />
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="change-description" class="no-access1">
+        <div class="img-cropper-container">
+            <a (click)="closePop()"><img alt="exit icon" src="./assets/img/close.svg"></a>
+            <div class="img-cropper-container2">
+                <h1>Change description</h1>
+                <form (submit)="save('description')">
+                    <textarea [(ngModel)]="profile.description" name="text" type="text" placeholder="Description"
+                        class="banReason"></textarea>
+                    <button class="No-btn" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="change-category" class="no-access1 no-access-pop">
+        <div class="img-cropper-container">
+            <a (click)="closePop()"><img alt="exit icon" src="./assets/img/close.svg"></a>
+            <div class="img-cropper-container2">
+                <h1>Change profile role</h1>
+                <form (submit)="save('category')">
+                    <input [(ngModel)]="profile.category" name="text" type="text" placeholder="Only affects text on profile"
+                        class="banReason">
+                    <button class="No-btn" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+<div id="pending-request" class="ban-box banWindow">
+    <div class="ban-confirm ">
+        <h1>Pending Request</h1>
+        <span>Your request is still under review, please wait for an answer before<br> trying again</span><br>
+        <button class="No" (click)="closeAlert()">OK</button>
+    </div>
+</div>

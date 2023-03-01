@@ -1,0 +1,146 @@
+<div *ngIf="isLoggedIn() && !userExists" class="login-container1" onload="welcome()">
+  <div class="bg-ph"></div>
+  <div class="wrapper-path-c">
+    <div class="google-part3">
+      <div class="google-part">
+        <div class="google-part2">
+
+          <div class="login-header">
+            <div class="vector-lines2 scl-mobile">
+                <img src="./assets/img/img-linesdecor.svg">
+            </div>
+            <h1>Complete your registration</h1>
+            <div class="vector-lines2 scl-mobile">
+                <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+            </div>
+          </div>
+          <div class="login-container5">
+            <div class="login-pic-c">
+              <label for="imgfile" class="google-pic">
+                <img [src]="imageURL" referrerpolicy="no-policy">
+              </label>
+              <input type="file" id="imgfile" name="imgfile" (change)="onFileSelect($event)" accept="image/png,image/jpeg">
+            </div>
+            <div class="login-form-c">
+              <form class="login-container6" (submit)="signUp()">
+                <div class="login-form-c-labels">
+                  <div class="login-form-c-input"> 
+                    <label for="name">First Name*</label>
+                    <input type="text" [(ngModel)]="user.name" name="name" id="name" placeholder="Your first name" required autofocus>
+                    <span class="invalid-field" id="iname">Enter a valid name</span>
+                  </div>
+                  <div class="login-form-c-input"> 
+                    <label for="lastName">Last Name*</label>
+                    <input type="text" [(ngModel)]="user.lastName" name="last-name" id="lastName" placeholder="Your last name" required autofocus>
+                    <span class="invalid-field" id="ilname">Enter a valid last name</span>
+                  </div>
+                </div>
+                <div class="login-button-c">
+                  <div class="vector-lines3 scl-mobile">
+                    <div class="vector5"></div>
+                  </div>
+                  <a class="dark-button"><button type="submit" value="signup">Register</button></a>
+                  <div class="vector-lines3 scl-mobile">
+                    <div class="vector5"></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="needsLinking" class="page-header">
+  <div class="bg-ph">
+  </div>
+  <div class="forgot-box">
+
+    <form (submit)="linkAccount()" >
+      <h1>Link account</h1>
+      <p>This email address is already in use. Please log in to link your account</p>
+
+      <div class="passField">
+        <label for="email"></label>
+        <input class="forgot-email" type="email" [(ngModel)]="linkUser.email" name="email" placeholder="E-mail"
+          autocomplete="username" readonly required>
+        <span class="invalid-field" id="iname">email doesn't exist</span>
+      </div>
+
+      <div class="passField">
+        <input type="password" [(ngModel)]="linkUser.password" name="password" class="forgot-email pass1" id="password" placeholder="Password"
+          required>
+        <span class="invalid-field confirmPass" id="iconfirm">Wrong Password</span>
+        <div class="show-password forgot1">
+          <img id="pass-icon" class="icon1" src="./assets/img/visiblePass-false.svg" (click)="togglePassword()">
+        </div>
+      </div>
+
+
+      <button type="submit" class="forgot-send">Link account</button>
+    </form>
+
+    <p>Still having issues? Please <a href="Contact-Us">Contact Us</a></p>
+
+  </div>
+</div>
+
+
+<div *ngIf="isLoggedIn() && userExists" class="google-loading">
+  <h1>Please wait...</h1>
+</div>
+
+<!--<div *ngIf="isLoggedIn() && !userExists" class="page-header" onload="welcome()">
+  <div class="bg-ph">
+  </div>
+
+  <div class="google-box">
+
+    <div class="eheader-container">
+      <div class="eheader">
+        <div>
+          <img src="./assets/img/img-linesdecor.svg">
+          <h1>Complete your registration</h1>
+          <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+        </div>
+      </div>
+    </div>
+
+    <label for="imgfile" class="google-pic">
+      <img [src]="imageURL" referrerpolicy="no-policy">
+    </label>
+    <input type="file" id="imgfile" name="imgfile" (change)="onFileSelect($event)" accept="image/png,image/jpeg">
+
+    <form class="login-container google-form" (submit)="signUp()">
+
+      <div class="inputN ">
+        <div class="nameI">
+          <label class="inputtext" for="name">First Name*</label>
+          <input type="text" [(ngModel)]="user.name" name="name" id="name" placeholder="Your first name" required
+            autofocus>
+          <span class="invalid-field" id="iname">Enter a valid name</span>
+        </div>
+        <div class="nameI lastI">
+          <label class="inputtext" for="lastName">Last Name*</label>
+          <input type="text" [(ngModel)]="user.lastName" name="last-name" id="lastName" placeholder="Your last name"
+            required autofocus>
+          <span class="invalid-field" id="ilname">Enter a valid last name</span>
+        </div>
+      </div>
+
+      <div class="btn-center">
+        <div class="linegroup">
+          <img alt="decor" src="./assets/img/img-line.svg">
+          <button type="submit" value="signup" class="btn-darkb">Register</button>
+          <img alt="decor" src="./assets/img/img-line.svg">
+        </div>
+      </div>
+    </form>
+
+  </div>
+
+</div>-->

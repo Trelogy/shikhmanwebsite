@@ -1,0 +1,306 @@
+<div class="collection-container" *ngIf="isLoaded">
+    <div class="wrapper-path-c">
+
+        <div class="path-dark">
+            <a href="" class="pic-home"><img alt="Home Icon" src="./assets/img/img-home.svg"></a>
+            <div class="pathnext-dark">
+                <div class="img-arrow-dark">
+                  <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+                </div>
+                <a href="Collections"><button>Collections</button></a>
+            </div>
+            <div class="pathnext-dark">
+                <div class="img-arrow-dark">
+                  <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+                </div>
+                <a href="Collection/{{data.collection._id}}"><button>{{data.collection.name}}</button></a>
+            </div>
+        </div>
+
+        <div class="collection-page-container no-mobile">
+            <div class="collection-page-container2 no-mobile">
+                <div class="collection-page-container3 no-mobile">
+                    <div class="collection-page-title no-mobile">
+                        <h1>{{data.collection.name}}</h1>
+                        <p>{{data.collection.started}} - {{data.collection.finished}}</p>
+                    </div>
+                    <div class="collection-page-users no-mobile"> 
+                        <a *ngFor="let author of data.authors" href="User/{{author._id}}">
+                            <div class="author-circlebox no-mobile">
+                                <img alt="authorAvatar" src="{{author.avatar}}">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+               <div class="collection-page-container4 no-mobile"> 
+                <div class="collection-page-container5 no-mobile">
+                    <div class="collection-page-sub no-mobile">
+                        <h2>About</h2>
+                        <p>{{data.collection.description}}</p>
+                    </div>
+                    <div class="collection-page-buttons no-mobile">
+                        <div *ngIf="data.isAuthor" class="collectionbtns no-mobile">
+                            <a href="Collection-Template/{{data.collection._id}}">
+                                <button class="member-button edit-work edit-collection">
+                                    <div class="member-filter"></div>
+                                    <p>Edit collection</p>
+                                </button>
+                            </a>
+                        </div>
+                        <!--here folder button-->
+                    </div>
+                </div>
+                <div class="collection-page-container6 no-mobile">
+                    <div class="collection-page-btn no-mobile">
+                        <a href="Collection/{{data['prev']}}"><img src="./assets/img/Arrow.svg" class="inverted-line"></a>
+                        <p>Collection {{data['position']}}/{{data['pages']}}</p>
+                        <a href="Collection/{{data['next']}}"><img src="./assets/img/Arrow.svg"></a>
+                    </div>
+                    <hr>
+                </div>
+
+               </div> 
+            </div>
+            <div class="collection-page-gallery no-mobile">
+
+                <div class="work-list no-mobile">
+                    <ng-container *ngFor="let item of data.content">
+                        <div>
+                            <a href="Collection-Item/{{item._id}}" *ngIf="item.type == 'item';else collectionFolder">
+                                <div class="work-box"
+                                    style="background: url('{{item.thumbnail}}') no-repeat; background-size: cover;">
+        
+                                    <div class="work-info no-mobile">
+                                        <span>{{item.name}}</span>
+                                    </div>
+                                    <div class="gradient no-mobile"><img src="./assets/img/gradient.svg"></div>
+                                    <div class="more-info no-mobile">
+                                        <h3>{{item.name}}</h3>
+                                        <p>{{item.medium}}</p>
+                                    </div>
+                                </div>
+                            </a>
+        
+                            <ng-template #collectionFolder>
+                                <a href="Collection-Folder/{{item._id}}" class="folderlink no-mobile">
+                                    <div>
+                                        <div class="template-img template-folder foldrcol no-mobile">
+                                            <div class="template-folder-info no-mobile">
+                                                <img src="./assets/img/Folder.png" alt="Folder"
+                                                    style="background: url('{{item.thumbnail}}') no-repeat; background-color: lightgray; background-size: cover;">
+                                                <h6>{{item.name}}</h6>
+                                                <span>{{item.content.length}} item<span
+                                                        *ngIf="item.content.length != 1">s</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </ng-template>
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="collection-page-containerm">
+            <div class="collection-page-container2m">
+                <div class="collection-page-container3m">
+                    <div class="collection-page-usersm"> 
+                        <a *ngFor="let author of data.authors" href="User/{{author._id}}">
+                            <div class="author-circlebox">
+                                <img alt="authorAvatar" src="{{author.avatar}}">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="collection-page-buttonsm">
+                        <div *ngIf="data.isAuthor" class="collectionbtns">
+                            <a href="Collection-Template/{{data.collection._id}}">
+                                <button class="member-button edit-work edit-collection">
+                                    <div class="member-filter"></div>
+                                    <p>Edit collection</p>
+                                </button>
+                            </a>
+                        </div>
+                        <!--here folder button-->
+                    </div>
+                </div>
+
+               <div class="collection-page-container4m"> 
+                <div class="collection-page-container5m">
+                    <div class="collection-page-titlem">
+                        <h1>{{data.collection.name}}</h1>
+                        <p>{{data.collection.started}} - {{data.collection.finished}}</p>
+                    </div>
+                    <div class="collection-page-subm">
+                        <h2>About</h2>
+                        <p>{{data.collection.description}}</p>
+                        <button class="read-btn">Read more</button>
+                    </div>
+                </div>
+                <div class="collection-page-container6m">
+                    <div class="collection-page-btnm">
+                        <a href="Collection/{{data['prev']}}"><img src="./assets/img/Arrow.svg" class="inverted-line"></a>
+                        <p>Collection {{data['position']}}/{{data['pages']}}</p>
+                        <a href="Collection/{{data['next']}}"><img src="./assets/img/Arrow.svg"></a>
+                    </div>
+                    <hr>
+                </div>
+
+               </div> 
+            </div>
+            <div class="collection-page-gallerym">
+
+                <div class="work-list">
+                    <ng-container *ngFor="let item of data.content">
+                        <div>
+                            <a href="Collection-Item/{{item._id}}" *ngIf="item.type == 'item';else collectionFolder">
+                                <div class="work-box"
+                                    style="background: url('{{item.thumbnail}}') no-repeat; background-size: cover;">
+        
+                                    <div class="work-info">
+                                        <span>{{item.name}}</span>
+                                    </div>
+                                    <div class="gradient"><img src="./assets/img/gradient.svg"></div>
+                                    <div class="more-info">
+                                        <h3>{{item.name}}</h3>
+                                        <p>{{item.medium}}</p>
+                                    </div>
+                                </div>
+                            </a>
+        
+                            <ng-template #collectionFolder>
+                                <a href="Collection-Folder/{{item._id}}" class="folderlink">
+                                    <div>
+                                        <div class="template-img template-folder foldrcol">
+                                            <div class="template-folder-info">
+                                                <img src="./assets/img/Folder.png" alt="Folder"
+                                                    style="background: url('{{item.thumbnail}}') no-repeat; background-color: lightgray; background-size: cover;">
+                                                <h6>{{item.name}}</h6>
+                                                <span>{{item.content.length}} item<span
+                                                        *ngIf="item.content.length != 1">s</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </ng-template>
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!--<div class="ewrapper" *ngIf="isLoaded">
+
+    <div class="path fixed">
+        <div class="path-web">
+
+            <a href="">
+                <div class="img-home"><img alt="Home Icon" src="./assets/img/img-home.svg"></div>
+            </a>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Collections"><button>Collections</button></a>
+            </div>
+            <div class="pathnext">
+                <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+                <a href="Collection/{{data.collection._id}}"><button>{{data.collection.name}}</button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="work-panel">
+        <div class="panel-left">
+
+            <h2 class="work-name">{{data.collection.name}}</h2>
+            <p class="info-content">
+                {{data.collection.started}} - {{data.collection.finished}}
+            </p>
+            <br>
+            <p class="info-content">
+                <span class="info-field">About</span>
+                <br>
+                {{data.collection.description}}
+            </p>
+            <br>
+
+        </div>
+        <div class="panel-right">
+
+            <div class="family-group">
+                <a *ngFor="let author of data.authors" href="User/{{author._id}}">
+                    <div class="author-circlebox">
+                        <img alt="authorAvatar" src="{{author.avatar}}">
+                    </div>
+                </a>
+            </div>
+            <div *ngIf="data.isAuthor" class="collectionbtns">
+                <a href="Collection-Template/{{data.collection._id}}">
+                    <button class="member-button edit-work edit-collection">
+                        <div class="member-filter"></div>
+                        <p>Edit collection</p>
+                    </button>
+                </a>
+            </div>
+
+            <div class="work-nav">
+                <a href="Collection/{{data['prev']}}">
+                    <div class="nav-arrow"> <img src="./assets/img/Arrow.svg" class="inverted-line"> </div>
+                </a>
+                Collection {{data['position']}}/{{data['pages']}}
+                <a href="Collection/{{data['next']}}">
+                    <div class="nav-arrow"> <img src="./assets/img/Arrow.svg"> </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="group-work">
+        <div class="work-list">
+
+            <ng-container *ngFor="let item of data.content">
+
+                <div>
+                    <a href="Collection-Item/{{item._id}}" *ngIf="item.type == 'item';else collectionFolder">
+                        <div class="work-box"
+                            style="background: url('{{item.thumbnail}}') no-repeat; background-size: cover;">
+
+                            <div class="work-info">
+                                <span>{{item.name}}</span>
+                            </div>
+                            <div class="gradient"><img src="./assets/img/gradient.svg"></div>
+                            <div class="more-info">
+                                <h3>{{item.name}}</h3>
+                                <p>{{item.medium}}</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <ng-template #collectionFolder>
+                        <a href="Collection-Folder/{{item._id}}" class="folderlink">
+                            <div>
+                                <div class="template-img template-folder foldrcol">
+                                    <div class="template-folder-info">
+                                        <img src="./assets/img/Folder.png" alt="Folder"
+                                            style="background: url('{{item.thumbnail}}') no-repeat; background-color: lightgray; background-size: cover;">
+                                        <h6>{{item.name}}</h6>
+                                        <span>{{item.content.length}} item<span
+                                                *ngIf="item.content.length != 1">s</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </ng-template>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>-->

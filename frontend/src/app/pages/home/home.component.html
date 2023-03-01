@@ -1,0 +1,361 @@
+<!--First Section-->
+<div class="home-container">
+  <div class="home-container2">
+      <div class="home-header">
+        <h1>Creating and collecting art</h1>
+        <p>are two very different things, however, one can not function without
+          the other, as one is birth and the other is purpose.</p>
+      </div>
+      <div class="animation-container">
+        <div *ngIf="showAnimation()"></div>
+      </div>
+      <div class="home-container3">
+        <p>This archive serves as a conduit</p>
+        <h2>to organize, display, and share</h2>
+        <p>the works and collection of our family.</p>
+      </div>
+  </div>
+</div>
+<!-- family members section-->
+<div class="family-container1-2">
+    <div class="wrapper-path-c">
+      <div class="family-container2 sectiontwo"> 
+        <div class="family-container3">
+          <div class="family-header">
+            <div class="vector-lines"><div class="vector1"></div></div>
+            <h2 class="h1">Family members</h2>
+            <div class="vector-lines"><div class="vector2"></div></div>
+          </div>
+          <div class="Members">
+            <div *ngFor="let user of familyMembers" class="fmember">
+              <div class="circlebox">
+                <a href="User/{{user._id}}"><img alt="member 1" [src]="user.avatar"></a>
+              </div>
+              <p>{{user.name}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="family-container4">
+          <div class="vector-lines">
+            <div class="vector3"></div>
+          </div>
+          <div class="quote">
+            <div class="img-quote">
+              <img alt="quote" src="./assets/img/img-quote.svg">
+            </div>
+            <div class="quote-text1">
+              <p>Families are like branches on a tree,
+                we grow in different directions yet our roots remain as one.
+              </p>
+            </div>
+            <div class="quote-text2">
+              <p>― Unknown</p>
+            </div>
+          </div>
+          <div class="vector-lines">
+            <div class="vector4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<!--Collection section-->
+<div id="CollectionS" class="collection-container">
+  <div class="wrapper-path-c2">
+    <div class="collection-header">
+      <div class="contact-header">
+        <div class="vector-lines2">
+            <img src="./assets/img/img-linesdecor.svg">
+        </div>
+        <h2>Collections</h2>
+        <div class="vector-lines2">
+            <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+        </div>
+      </div>
+      <div class="collection-container2">
+        <div class="collection-text1">
+          <p>Collecting seems to bring out that primitive instinct for the hunt in some of its
+            devotees, who stalk their prey with skill.</p>
+        </div>
+        <div class="collection-text2">
+          <p>― Alicia Craig Faxon</p>
+        </div>
+      </div>
+    </div>
+    <div class="collection-container3">
+      <div class="collection-container4">
+        <ng-container *ngFor="let collection of collections | async">
+          <div class="boxc">
+            <div class="boxcinner">
+              <button class="collect-hover" (click)="accessItem('Collection', collection._id)"></button>
+
+              <div class="bigcollection">
+
+                <div class="bigcollection-members ">
+                  <div class="not-so smallcircle" *ngFor="let author of collection.authors; index as i"><img
+                      alt="member 2" src="{{author.avatar}}"><span>{{author.name}}</span></div>
+                </div>
+                <h3>{{collection.name}}</h3>
+                <p>{{collection.content.length}} items</p>
+              </div>
+              <div class="boxgroup">
+                <div *ngFor="let thumbnail of collection.thumbnails">
+                  <div class="boxpicture" [ngClass]="{'folder': thumbnail.type == 'folder'}">
+                    <img *ngIf="thumbnail.type == 'item'" alt="Collection 1" src="{{thumbnail['path']}}">
+                    <img *ngIf="thumbnail.type == 'folder'" alt="Collection 1" src="./assets/img/Folder.png" style="background: url('{{thumbnail.path}}') no-repeat; background-color: lightgray;
+                            background-size: cover;">
+                  </div>
+                </div>
+              </div>
+              <div class="boxcirclegroup">
+                <ng-container *ngFor="let author of collection.authors; index as i">
+                  <div *ngIf="i < 6" class="smallcircle"><img alt="member 3" src="{{author.avatar}}"></div>
+                </ng-container>
+                <span *ngIf="collection.authors.length > 6"> +{{collection.authors.length - 6}} </span>
+              </div>
+            </div>
+            <p>{{collection.name}}</p>
+          </div>
+        </ng-container>
+      </div>
+      <div class="work-container3">
+        <div class="vector-lines3">
+          <div class="vector5"></div>
+        </div>
+        <a href="Collections" class="dark-button"><button>See all</button></a>
+        <div class="vector-lines3">
+          <div class="vector5"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Works section-->
+<div id="WorkS" class="work-container">
+  <div class="wrapper-path-c2">
+    <div class="work-header">
+      <h3>Works</h3>
+      <div class="work-header-c1">
+        <p>“Imagination is everything. It is the preview of life's coming attractions.”</p>
+      </div>
+      <div class="work-header-c2">
+        <p>― Albert Einstein</p>
+      </div>
+    </div>
+    <div class="work-container2">
+      <div class="work-list">
+        <a *ngFor="let work of works | async" (click)="accessItem('Work', work._id)">
+          <div class="work-box visible-work"
+            style="background: url('{{work.thumbnail.url}}') no-repeat center; background-size: 150%;">
+  
+            <small *ngIf="work.thumbnail.duration" class="video-duration">{{work.thumbnail.duration}}</small>
+            <img *ngIf="work.thumbnail.duration" src="./assets/img/work-button.svg" class="play-button" />
+            <div class="work-info">
+              <div class=work-members>
+                <ng-container *ngFor="let author of work.authors; index as i">
+                  <div *ngIf="i < 5" class="smallcircle workcircle"><img alt="member 3" src="{{author.avatar}}">
+                  </div>
+                </ng-container>
+                <div class="author-overflow" *ngIf="work.authors.length > 5">
+                  +{{work.authors.length - 5}}
+                </div>
+              </div>
+              <span>{{work.name}}</span>
+            </div>
+            <div class="gradient"><img src="./assets/img/gradient.svg"></div>
+            <div class="more-info">
+              <div class="bigcollection-members ">
+                <ng-container *ngFor="let author of work.authors; index as i">
+                  <div *ngIf="i < 5" class="not-so smallcircle"><img alt="member 3"
+                      src="{{author.avatar}}"><span>{{author.name}}</span></div>
+                </ng-container>
+                <div *ngIf="work.authors.length > 5" class="more-authors">+{{work.authors.length - 5}}</div>
+              </div>
+              <h3>{{work.name}}</h3>
+              <p>{{work.medium}}</p>
+  
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="work-container3">
+        <div class="vector-lines3">
+          <div class="vector5"></div>
+        </div>
+        <a href="Works" class="dark-button"><button>See all</button></a>
+        <div class="vector-lines3">
+          <div class="vector5"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="no-access">
+  <img src="./assets/img/about-bg1.svg" class="about-bg noaccess">
+  <img src="./assets/img/about-bg2.svg" class="about-bg2 noaccess">
+
+  <div class="no-access-box">
+    <img src="./assets/img/close.svg" class="close-button" (click)="closeWindow()" />
+    <img src="./assets/img/Lock.svg" class="lock">
+    <p>Oh no! it seems you are trying to access a "private" item.<br>Please request permission below.</p>
+    <img src="./assets/img/Key.svg" class="key" (click)="requestAccess()">
+  </div>
+
+  <div class="request-access">
+    <img src="./assets/img/close.svg" class="close-button" (click)="closeWindow()" />
+    <h2>Request Access</h2>
+    <form class="request-form" (submit)="sendRequest()" name="request-form">
+
+      <p>Organisation:</p><br>
+      <input [(ngModel)]="requestForm.organisation" name="Organisation" type="text" class="input-field" /><br>
+
+      <p>Purpose for gaining access:*</p><br>
+      <input [(ngModel)]="requestForm.purpose" name="purpose" class="otherinfo" maxlength="30" />
+
+      <p>Any other info/comments</p><br>
+      <textarea [(ngModel)]="requestForm.description" name="description" class="purpose" required="true"> </textarea>
+
+
+      <button type="submit" class="submit-request">
+        <img src="./assets/img/sendKey.svg" class="request-button" />
+      </button>
+    </form>
+  </div>
+</div>
+
+<div id="pending-request" class="ban-box banWindow">
+  <div class="ban-confirm ">
+    <h1>Pending Request</h1>
+    <span>Your request is still under review, please wait for an answer before<br> trying again</span><br>
+    <button class="No" (click)="closeAlert()">OK</button>
+  </div>
+</div>
+
+  
+<!--Old html
+  <div id="CollectionS" class="page-header">
+  <div class="container1">
+    <div class="boxline boxline2">
+      <div class="eheader-container">
+        <div class="eheader collections-header">
+          <div>
+            <img src="./assets/img/img-linesdecor.svg">
+            <h1>Collections</h1>
+            <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+          </div>
+        </div>
+      </div>
+
+      <div class="header-quote">
+        <h3>Collecting seems to bring out that primitive instinct for the hunt in some of its
+          devotees, who stalk their prey with skill.</h3>
+        <p>― Alicia Craig Faxon</p>
+      </div>
+
+      <div class="container2">
+
+        <ng-container *ngFor="let collection of collections | async">
+          <div class="boxc">
+            <div class="boxcinner">
+              <button class="collect-hover" (click)="accessItem('Collection', collection._id)"></button>
+
+              <div class="bigcollection">
+
+                <div class="bigcollection-members ">
+                  <div class="not-so smallcircle" *ngFor="let author of collection.authors; index as i"><img
+                      alt="member 2" src="{{author.avatar}}"><span>{{author.name}}</span></div>
+                </div>
+                <h3>{{collection.name}}</h3>
+                <p>{{collection.content.length}} items</p>
+              </div>
+              <div class="boxgroup">
+                <div *ngFor="let thumbnail of collection.thumbnails">
+                  <div class="boxpicture" [ngClass]="{'folder': thumbnail.type == 'folder'}">
+                    <img *ngIf="thumbnail.type == 'item'" alt="Collection 1" src="{{thumbnail['path']}}">
+                    <img *ngIf="thumbnail.type == 'folder'" alt="Collection 1" src="./assets/img/Folder.png" style="background: url('{{thumbnail.path}}') no-repeat; background-color: lightgray;
+                            background-size: cover;">
+                  </div>
+                </div>
+              </div>
+              <div class="boxcirclegroup">
+                <ng-container *ngFor="let author of collection.authors; index as i">
+                  <div *ngIf="i < 6" class="smallcircle"><img alt="member 3" src="{{author.avatar}}"></div>
+                </ng-container>
+                <span *ngIf="collection.authors.length > 6"> +{{collection.authors.length - 6}} </span>
+              </div>
+            </div>
+            <p>{{collection.name}}</p>
+          </div>
+        </ng-container>
+
+        <div class="btn-center">
+          <a href="Collections" class="btn-dark"><button>See all</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="WorkS" class="container4">
+  <div class="bg-main">
+    <div class="img-trees">
+      <img alt="Trees background decoration" src="./assets/img/img-trees.svg">
+    </div>
+  </div>
+  <div class="eheader-container">
+    <div class="eheader">
+      <div>
+        <h3 class="h1">Works</h3>
+      </div>
+    </div>
+  </div>
+  <div class="worksctext">
+    <p>“Imagination is everything. It is the preview of life's coming attractions.”</p>
+    <p>― Albert Einstein</p>
+  </div>
+
+  <div class="container5">
+    <div class="work-list">
+      <a *ngFor="let work of works | async" (click)="accessItem('Work', work._id)">
+        <div class="work-box visible-work"
+          style="background: url('{{work.thumbnail.url}}') no-repeat center; background-size: 150%;">
+
+          <small *ngIf="work.thumbnail.duration" class="video-duration">{{work.thumbnail.duration}}</small>
+          <img *ngIf="work.thumbnail.duration" src="./assets/img/work-button.svg" class="play-button" />
+          <div class="work-info">
+            <div class=work-members>
+              <ng-container *ngFor="let author of work.authors; index as i">
+                <div *ngIf="i < 5" class="smallcircle workcircle"><img alt="member 3" src="{{author.avatar}}">
+                </div>
+              </ng-container>
+              <div class="author-overflow" *ngIf="work.authors.length > 5">
+                +{{work.authors.length - 5}}
+              </div>
+            </div>
+            <span>{{work.name}}</span>
+          </div>
+          <div class="gradient"><img src="./assets/img/gradient.svg"></div>
+          <div class="more-info">
+            <div class="bigcollection-members ">
+              <ng-container *ngFor="let author of work.authors; index as i">
+                <div *ngIf="i < 5" class="not-so smallcircle"><img alt="member 3"
+                    src="{{author.avatar}}"><span>{{author.name}}</span></div>
+              </ng-container>
+              <div *ngIf="work.authors.length > 5" class="more-authors">+{{work.authors.length - 5}}</div>
+            </div>
+            <h3>{{work.name}}</h3>
+            <p>{{work.medium}}</p>
+
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="btn-center">
+      <div class="linegroup2">
+        <img alt="decor" src="./assets/img/img-line.svg">
+        <a href="Works" class="btn-darkb2"><button>See all</button></a>
+        <img alt="decor" src="./assets/img/img-line.svg">
+      </div>
+    </div>
+  </div>
+</div>-->

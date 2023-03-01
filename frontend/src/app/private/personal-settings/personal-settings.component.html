@@ -1,0 +1,245 @@
+<div class="login-container1">
+  <div class="settings-banner">
+    <img src="{{user.banner}}"/>
+  </div>
+  <div class="wrapper-path-c">
+    
+    <div class="path-white">
+      <a href="" class="pic-home"><img alt="Home Icon" src="./assets/img/img-home.svg"></a>
+      <div class="pathnext-white">
+          <div class="img-arrow-white">
+            <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+          </div>
+          <a href="Profile"><button>{{user.name}} {{user.lastName}}</button></a>
+      </div>
+      <div class="pathnext-white">
+        <div class="img-arrow-white">
+          <img alt="Arrow Icon" src="./assets/img/img-arrow.svg">
+        </div>
+        <a href="Personal-Settings"><button>Personal-Settings</button></a>
+      </div>
+    </div>
+
+    <div class="login-container2 personal-settings-mobile">
+     
+      <div class="login-container3">
+        <div class="login-container4">
+          
+          <div class="login-header">
+            <div class="vector-lines2 scl-mobile">
+                <img src="./assets/img/img-linesdecor.svg">
+            </div>
+            <h1>Personal Setting</h1>
+            <div class="vector-lines2 scl-mobile">
+                <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+            </div>
+          </div>
+
+          <div class="login-container5">
+            <div class="login-pic-c">
+              <label for="imgfile" class="google-pic">
+                <img [src]="imageURL">
+              </label>
+              <input type="file" id="imgfile" name="imgfile" (change)="fileChangeEvent($event, true)" accept="image/png,image/jpeg">            
+            </div>
+
+            <div class="movebanner-mobile">
+              <div class="floatr">
+                <label *ngIf="['Admin', 'Family member', 'Friend'].includes(user.role)" for="file">Change
+                  Banner
+                  <input (change)="fileChangeEvent($event, false)" type="file" id="file" required>
+                </label>
+              </div>
+            </div>
+
+            <div class="login-form-c">
+            
+              <form (submit)="updateuser()" class="login-container6">
+
+                  <div class="login-form-c-labels">
+                    <div class="login-form-c-input"> 
+
+                      <label for="name">First Name*</label>
+                      <input type="text" [(ngModel)]="user.name" name="name" id="name" placeholder="Your first name" required autocomplete="off" autofocus>
+                      <span class="invalid-field" id="iname">Enter a valid name</span>
+                    </div>
+                    <div class="login-form-c-input"> 
+                      <label for="lastName">Last Name*</label>
+                      <input type="text" [(ngModel)]="user.lastName" autocomplete="off" name="last-name" id="lastName" placeholder="Your last name" required autofocus>
+                      <span class="invalid-field" id="ilname">Enter a valid last name</span>
+                    </div>
+                  </div>
+                  <div class="login-form-c-input"> 
+                    <label for="email">email</label>
+                    <input [(ngModel)]="user.email" type="email" name="email" id="email" placeholder="E-mail" required>
+                    <span class="invalid-field" id="iemail">Enter a valid email</span>
+                  </div>
+                  <div  class="login-form-c-input">
+                    <label for="password">Password*</label>
+                    <div class="passField">
+                      <input type="password" [(ngModel)]="user.password" name="password" id="password"
+                        placeholder="Create a password (8-20 symbols)" required>
+                      <div class="show-password signupPage" (click)="togglePassword()">
+                        <img id="pass-icon" src="./assets/img/visiblePass-false.svg">
+                      </div>
+                    </div>
+                    <span class="invalid-field" id="ipass">Password must be between 8 and 20 characters</span>
+                  </div>
+
+                 
+                  <div class="login-button-c2">
+                    <div class="login-button-c">
+                      <div class="vector-lines3 scl-mobile">
+                        <div class="vector5"></div>
+                      </div>
+                      <a class="dark-button"><button type="submit" value="signup">Save</button></a>
+                      <div class="vector-lines3 scl-mobile">
+                        <div class="vector5"></div>
+                      </div>
+                    </div>
+                    <a (click)="deleteAccount()"><span>Delete account</span></a>
+                  </div>
+                  
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="movebanner">
+        <div class="floatr">
+          <label *ngIf="['Admin', 'Family member', 'Friend'].includes(user.role)" for="file">Change
+            Banner
+            <input (change)="fileChangeEvent($event, false)" type="file" id="file" required>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Croper pop up-->
+<div class="no-access1">
+  <div class="img-cropper-container">
+    <a (click)="closePop()"><img alt="exit icon" src="./assets/img/close.svg"></a>
+    <div class="img-cropper-container2">
+      <image-cropper class="cropped-img" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+        format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()">
+      </image-cropper>
+      <button class="No-btn" (click)="setAvatar()" type="button">Confirm</button>
+    </div>
+  </div>
+</div>
+
+
+<!--Delete account pop up-->
+<div class="ban-box1">
+  <div class="ban-confirm2">
+    <div class="ban-confirm3"> 
+      <h1>Are you sure you want to delete your account?</h1>
+      <p>You will loose all access to this website and will have to re-create you account.</p>
+      <div class="ban-box-buttons">
+        <button class="Yes" (click)="confirmDelete()">Yes</button> 
+        <button class="No" type="button"
+          (click)="closeWindow()">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div class="settings-banner">
+  <img src="{{user.banner}}"/>
+</div>
+
+<div class="ps path2 member-path">
+  <div class="path-web">
+    <div class="img-home"><a href=""><img alt="Home Icon" src="./assets/img/img-home.svg"></a></div>
+    <div class="pathnext">
+      <div class="patharrows">
+        <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+        <a href="Profile"><button>{{user.name}} {{user.lastName}}</button></a>
+      </div>
+      <div class="patharrows">
+        <div class="img-arrow"><img alt="Arrow Icon" src="./assets/img/img-arrow.svg"></div>
+        <a href="Personal-Settings"><button>Personal Settings</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="movebanner">
+  <div class="floatr">
+    <label *ngIf="['Admin', 'Family member', 'Friend'].includes(user.role)" class="change-banner" for="file">Change
+      Banner
+      <input (change)="fileChangeEvent($event, false)" type="file" id="file" required>
+    </label>
+  </div>
+</div>
+
+<div class="google-box">
+
+  <div class="eheader-container">
+    <div class="eheader">
+      <div>
+        <img src="./assets/img/img-linesdecor.svg">
+        <h1>Profile settings</h1>
+        <img src="./assets/img/img-linesdecor.svg" class="inverted-line">
+      </div>
+    </div>
+  </div>
+
+  <label for="imgfile" class="google-pic">
+    <img [src]="imageURL">
+  </label>
+  <input type="file" id="imgfile" name="imgfile" (change)="fileChangeEvent($event, true)" accept="image/png,image/jpeg">
+
+  <div class="no-access">
+    <div class="img-cropper">
+      <image-cropper class="cropped-img" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+        format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"></image-cropper>
+      <button class="No" (click)="setAvatar()" type="button">Confirm</button>
+    </div>
+  </div>
+
+  <form class="login-container google-form" (submit)="updateuser()">
+
+    <div class="inputN ">
+      <div class="nameI">
+        <label class="inputtext" for="name">First Name*</label>
+        <input type="text" [(ngModel)]="user.name" name="name" id="name" placeholder="Your first name" required
+          autocomplete="off" autofocus>
+        <span class="invalid-field" id="iname">Enter a valid name</span>
+      </div>
+      <div class="nameI lastI">
+        <label class="inputtext" for="lastName">Last Name*</label>
+        <input type="text" [(ngModel)]="user.lastName" autocomplete="off" name="last-name" id="lastName"
+          placeholder="Your last name" required autofocus>
+        <span class="invalid-field" id="ilname">Enter a valid last name</span>
+      </div>
+    </div>
+
+    <label class="inputtext" for="email">email</label>
+    <input [(ngModel)]="user.email" type="email" name="email" id="email" placeholder="E-mail" required>
+    <span class="invalid-field" id="iemail">Enter a valid email</span>
+
+    <label class="inputtext" for="password">Password</label>
+    <input type="password" id="password" [(ngModel)]="user.password" name="password"
+      placeholder="Create a password (8-20 symbols)" autocomplete="off" required>
+    <span class="invalid-field" id="ipass">Password must be between 8 and 20 characters</span>
+    <div class="flexcont">
+      <div class="btn-center">
+        <div class="linegroup">
+          <img alt="decor" src="./assets/img/img-line.svg">
+          <button type="submit" value="signup" class="btn-darkb">Save</button>
+          <img alt="decor" src="./assets/img/img-line.svg">
+        </div>
+      </div>
+      <div class="supr delete ps">
+        <a (click)="deleteAccount()"><span>Delete account</span></a>
+      </div>
+    </div>
+
+  </form>
+  
+</div>-->
